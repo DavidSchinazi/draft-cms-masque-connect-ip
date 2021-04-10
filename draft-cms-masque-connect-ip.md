@@ -80,10 +80,10 @@ permits the exchange of control data, such as IP address information, reachable
 IP ranges, and other relevant information for successfully transmitting IP
 datagrams between hosts.
 
-The request-target of a CONNECT-IP request is a URI {{!RFC3986}} which uses the
-"https" scheme and an immutable path of "/". When using HTTP/2 {{!H2=RFC7540}}
-or later, CONNECT-IP requests use HTTP pseudo-headers with the following
-requirements:
+The request-target of a CONNECT-IP request is a URI {{!URI=RFC3986}} which uses
+the "https" scheme and an immutable path of "/". When using HTTP/2
+{{!H2=RFC7540}} or later, CONNECT-IP requests use HTTP pseudo-headers with the
+following requirements:
 
 * The ":method" pseudo-header field is set to "CONNECT-IP".
 
@@ -123,9 +123,9 @@ the associated tunnel.
 # Transmitting IP Packets using HTTP Datagrams
 
 When the HTTP connection supports HTTP/3 datagrams
-{{!H3DGRAM=I-D.schinazi-masque-h3-datagram}}, IP packets can be sent using
-them. The HTTP/3 Datagram Payload contains a full IP packet, from the IP
-Version field until the last byte of the IP Payload.
+{{!H3DGRAM=I-D.ietf-masque-h3-datagram}}, IP packets can be sent using them.
+The HTTP/3 Datagram Payload contains a full IP packet, from the IP Version
+field until the last byte of the IP Payload.
 
 
 # Routes
@@ -147,10 +147,11 @@ prefix is used.
 
 # Stream Chunks {#stream-chunks}
 
-The bidirectional stream that the CONNECT-IP request was sent on is a
-sequence of CONNECT-IP Stream Chunks, which are defined as a sequence of
-type-length-value tuples using the following format (using the notation from
-the "Notational Conventions" section of {{!QUIC=I-D.ietf-quic-transport}}):
+The DATA stream tied to the bidirectional stream that the CONNECT-IP request
+was sent on is a sequence of CONNECT-IP Stream Chunks, which are defined as a
+sequence of type-length-value tuples using the following format (using the
+notation from the "Notational Conventions" section of
+{{!QUIC=I-D.ietf-quic-transport}}):
 
 ~~~
 CONNECT-IP Stream {
@@ -203,6 +204,9 @@ IP Packet:
 
 : A full IP packet, from the IP Version field until the last byte of the IP
 Payload.
+
+Note that this message MAY still be used even when HTTP/3 datagrams are
+available.
 
 
 ## ADDRESS_ASSIGN Message
@@ -384,7 +388,7 @@ SHUTDOWN Message {
 Reason Phrase:
 
 : Additional diagnostic information for the shutdown. This SHOULD be
-  a UTF-8 encoded string {{!RFC3629}}, though the frame does not carry
+  a UTF-8 encoded string {{!UTF8=RFC3629}}, though the frame does not carry
   information, such as language tags, that would aid comprehension by any entity
   other than the one that created the text.
 
@@ -454,8 +458,8 @@ exchanging DNS configuration between endpoints.
 There are significant risks in allowing arbitrary clients to establish a tunnel
 to arbitrary servers, as that could allow bad actors to send traffic and have
 it attributed to the proxy. Proxies that support CONNECT-IP SHOULD restrict its
-use to authenticated users. The HTTP Authorization header {{?RFC7235}} MAY be
-used to authenticate clients. More complex authentication schemes are out of
+use to authenticated users. The HTTP Authorization header {{?AUTH=RFC7235}} MAY
+be used to authenticate clients. More complex authentication schemes are out of
 scope for this document but can be implemented using CONNECT-IP extensions.
 
 
