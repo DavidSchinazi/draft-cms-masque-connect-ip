@@ -68,7 +68,7 @@ when, and only when, they appear in all capitals, as shown here.
 
 In this document, we use the term "proxy" to refer to the HTTP server that
 responds to the CONNECT-IP request. If there are
-HTTP intermediaries (as defined in Section 2.3 of {{RFC7230}}) between the
+HTTP intermediaries (as defined in Section 2.3 of {{!RFC7230}}) between the
 client and the proxy, those are referred to as "intermediaries" in this
 document.
 
@@ -150,7 +150,7 @@ prefix is used.
 The bidirectional stream that the CONNECT-IP request was sent on is a
 sequence of CONNECT-IP Stream Chunks, which are defined as a sequence of
 type-length-value tuples using the following format (using the notation from
-the "Notational Conventions" section of {{QUIC}}):
+the "Notational Conventions" section of {{!QUIC=I-D.ietf-quic-transport}}):
 
 ~~~
 CONNECT-IP Stream {
@@ -496,19 +496,19 @@ specification reference is provided.
 The initial contents of this registry are:
 
 ~~~
-  +-------+---------------------+-----------------------+---------------+
-  | Value |        Type         |      Description      |   Reference   |
-  +-------+---------------------+-----------------------+---------------+
-  | 0x00  |      IP_PACKET      | Full IP packet        | This document |
-  | 0x01  |   ADDRESS_ASSIGN    | IP Address Assignment | This document |
-  | 0x02  |   ADDRESS_REQUEST   | IP Address Request    | This document |
-  | 0x03  | ROUTE_ADVERTISEMENT | Route Advertisement   | This document |
-  | 0x04  |   ROUTE_REJECTION   | Route Rejection       | This document |
-  | 0x05  |     ROUTE_RESET     | Route Reset           | This document |
-  | 0x06  |      SHUTDOWN       | Shutdown Reason       | This document |
-  | 0x07  |    ATOMIC_START     | Atomic Start          | This document |
-  | 0x08  |     ATOMIC_END      | Atomic End            | This document |
-  +-------+---------------------+-----------------------+---------------+
++-------+---------------------+---------------------+---------------+
+| Value |        Type         |      Description    |   Reference   |
++-------+---------------------+---------------------+---------------+
+| 0x00  |      IP_PACKET      | Full IP packet      | This document |
+| 0x01  |   ADDRESS_ASSIGN    | Address Assignment  | This document |
+| 0x02  |   ADDRESS_REQUEST   | Address Request     | This document |
+| 0x03  | ROUTE_ADVERTISEMENT | Route Advertisement | This document |
+| 0x04  |   ROUTE_REJECTION   | Route Rejection     | This document |
+| 0x05  |     ROUTE_RESET     | Route Reset         | This document |
+| 0x06  |      SHUTDOWN       | Shutdown Reason     | This document |
+| 0x07  |    ATOMIC_START     | Atomic Start        | This document |
+| 0x08  |     ATOMIC_END      | Atomic End          | This document |
++-------+---------------------+---------------------+---------------+
 ~~~
 
 Each value of the format `41 * N + 29` for integer values of N (that is, 29,
@@ -552,4 +552,3 @@ route all traffic through the tunnel. The exchange could look as follows:
 The design of CONNECT-IP was inspired by discussions in the MASQUE working
 group around {{REQS}}. The authors would like to thank participants in those
 discussions for their feedback.
-
