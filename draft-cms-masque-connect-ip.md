@@ -92,9 +92,8 @@ following requirements:
 * The ":path" pseudo-header field is set to "/".
 
 * The ":authority" pseudo-header field contains the host and port of the proxy.
-  The target of a CONNECT-IP request should be the server providing the
-  CONNECT-IP featureset, not an individual endpoint with which a connection is
-  desired.
+  The target of a CONNECT-IP request is the server providing the CONNECT-IP
+  featureset, not an individual endpoint with which a connection is desired.
 
 A CONNECT-IP request that does not conform to these restrictions is
 malformed (see {{H2}}, Section 8.1.2.6).
