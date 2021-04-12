@@ -387,9 +387,9 @@ SHUTDOWN Message {
 Reason Phrase:
 
 : Additional diagnostic information for the shutdown. This SHOULD be
-  a UTF-8 encoded string {{!UTF8=RFC3629}}, though the frame does not carry
-  information, such as language tags, that would aid comprehension by any entity
-  other than the one that created the text.
+a UTF-8 encoded string {{!UTF8=RFC3629}}, though the frame does not carry
+information, such as language tags, that would aid comprehension by any entity
+other than the one that created the text.
 
 Note that the SHUTDOWN message is informational, the tunnel is only closed when
 its corresponding CONNECT-IP stream is closed. Endpoints MAY close the tunnel
