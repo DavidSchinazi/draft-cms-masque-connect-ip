@@ -81,7 +81,7 @@ IP ranges, and other relevant information for successfully transmitting IP
 datagrams between hosts.
 
 The request-target of a CONNECT-IP request is a URI {{!URI=RFC3986}} which uses
-the "https" scheme and an immutable path of "/". When using HTTP/2
+the "https" scheme and a client-specified path. When using HTTP/2
 {{!H2=RFC7540}} or later, CONNECT-IP requests use HTTP pseudo-headers with the
 following requirements:
 
@@ -89,7 +89,8 @@ following requirements:
 
 * The ":scheme" pseudo-header field is set to "https".
 
-* The ":path" pseudo-header field is set to "/".
+* The ":path" pseudo-header field is set to the value provided by the
+  client. That value MUST NOT be empty.
 
 * The ":authority" pseudo-header field contains the host and port of the proxy.
   The target of a CONNECT-IP request is the server providing the CONNECT-IP
