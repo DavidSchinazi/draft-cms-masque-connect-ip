@@ -138,6 +138,33 @@ SETTINGS frame was received without the H3_DATAGRAM SETTINGS Parameter), the
 client MUST consider its CONNECT-IP request as failed.
 
 
+# Forwarding of IP Packets
+
+Since CONNECT-IP allows the transmission of IP packets over HTTP, CONNECT-IP
+endpoints will most often forward these packets to and from traditional IP
+interfaces. As such, CONNECT-IP endpoints act as IP routers. When a CONNECT-IP
+endpoint receives an HTTP Datagram containing an IP packet, it will parse the
+packet's IP header, perform any local policy checks (e.g., source address
+validation), check their routing table to pick an outbound interface, and then
+use an implementation-specific mechanism (such as raw sockets) to send the IP
+packet on that interface.
+
+Conversely, when a CONNECT-IP endpoint receives an IP packet whose destination
+address does not match any local addresses, it consults its routing table to
+pick a forwarding destination, and if the table points to a CONNECT-IP tunnel,
+the endpoint performs the same forwarding checks before transmitting the packet
+inside the tunnel.
+
+Note that CONNECT-IP endpoints will decrement the IP Hop Count (or TTL) upon
+encapsulation but not decapsulation. In other words, the Hop Count is
+decremented right before an IP packet is transmitted in an HTTP Datagram. This
+prevents infinite loops in the presence of routing loops, and matches the
+choices in IPsec {{?IPSEC=RFC4301}}.
+
+Endpoints MAY implement additional filtering policies on the IP packets they
+forward.
+
+
 # Routes
 
 Endpoints have the ability to advertise and reject routes using the
@@ -153,6 +180,12 @@ that matches a previous ROUTE_REJECTION. Routes are handled via
 longest-prefix-first preference, meaning that if a given IP prefix is covered
 by multiple route advertisement and route rejections, the one with the longest
 prefix is used.
+
+When processing ROUTE_ADVERTISEMENT capsules, endpoints MUST check their local
+policy before deciding whether to forward packets to their peer. Since ignoring
+these capsules is allowed by the protocol, such policy decisions will not
+prevent interoperability.
+
 
 # Capsules
 
@@ -227,8 +260,12 @@ the peer of the assignment.
 ## ROUTE_ADVERTISEMENT Capsule {#route-adv}
 
 The ROUTE_ADVERTISEMENT capsule allows an endpoint to communicate to its peer
-that it is willing to route traffic to a given prefix. This capsule uses a
-Capsule Type of 0xfff102. Its value uses the following format:
+that it is willing to route traffic to a given prefix. This indicates that the
+sender has an existing route to the prefix, and notifies its peer that if the
+receiver of the ROUTE_ADVERTISEMENT capsule sends IP packets for this prefix in
+HTTP Datagrams, the sender of the capsule will forward them along its
+preexisting route. This capsule uses a Capsule Type of 0xfff102. Its value uses
+the following format:
 
 ~~~
 ROUTE_ADVERTISEMENT Capsule {
@@ -418,6 +455,10 @@ scope for this document but can be implemented using CONNECT-IP extensions.
 Since CONNECT-IP endpoints can proxy IP packets send by their peer, they SHOULD
 follow the guidance in {{!BCP38=RFC2827}} to help prevent denial of service
 attacks.
+
+In theory, endpoints could use ROUTE_ADVERTISEMENT capsules to divert traffic
+from naive endpoints. To avoid this, receivers of ROUTE_ADVERTISEMENT capsules
+MUST check their local policy before acting on such capsules, see {{routes}}.
 
 
 # IANA Considerations {#iana}
