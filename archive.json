@@ -1,0 +1,709 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2021-04-22T00:56:03.578687+00:00",
+  "repo": "DavidSchinazi/draft-cms-masque-connect-ip",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "MDU6SXNzdWU4NTkwMTk1MzU=",
+      "title": "Add reference to BCP 38",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/1",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "So what source IP validation requirements should be required or recommended on the MASQUE endpoints. \r\n\r\nFor the basic VPN case where the MASQUE client gets assigned a single address or prefix by the MASQUE server I think it both straightforward and should be required for the MASQUE server to block any IP packets that are coming from the client with a source unicast IP address that isn't from the assigned prefix. \r\n\r\nFor the whole network this becomes more complex but still I think there should be recommendation on applying source address validation so that Connect-IP isn't a mechanism used for source address spoofing. ",
+      "createdAt": "2021-04-15T15:52:51Z",
+      "updatedAt": "2021-04-15T17:23:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Good point, we'll add a reference to BCP 38 in security considerations.",
+          "createdAt": "2021-04-15T16:50:19Z",
+          "updatedAt": "2021-04-15T16:50:19Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "MDU6SXNzdWU4NTkwMzAxNTY=",
+      "title": "Add text about routing advertisement to security considerations",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/2",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I think there are need for a more significant discussion of the quite serious implications of route advertisements made with malicious intent. I think the most obvious would be for a MASQUE server to attempt to advertise prefixes it believes the MASQUE client might send traffic on using its other interfaces, to thus enable the MASQUE server to intercept the traffic by redirecting it through the MASQUE tunnel. \r\n\r\nSo please expand on this in the security considerations on these matters. ",
+      "createdAt": "2021-04-15T16:05:16Z",
+      "updatedAt": "2021-04-16T19:05:26Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "The text is pretty clear about these messages being purely informational, but I agree that we should add more text to security considerations to mention common pitfalls.",
+          "createdAt": "2021-04-15T16:48:22Z",
+          "updatedAt": "2021-04-15T16:48:22Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "NONE",
+          "body": "Actually I am reacting to you calling the informational. It might be optional to attempt to use the route provided by the advertisements, however the mechanism and its specification is a normative specification to follow if one uses it. And it has a purpose of informing the peer endpoint that you claim that you have routes. Using that information has implications and thus need to well explored in the security consideration. In the same venue also optional mechanism has normative references.",
+          "createdAt": "2021-04-15T19:25:47Z",
+          "updatedAt": "2021-04-15T19:25:47Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "@gloinul I don't think I understand what you meant by https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/2#issuecomment-820676840 can you try to reformulate it please?",
+          "createdAt": "2021-04-15T21:40:10Z",
+          "updatedAt": "2021-04-15T21:40:22Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "NONE",
+          "body": "In the comment above you state \"these messages being purely informational\". I have some concern with this formulation for two reasons. Yes, they provide information to the peer endpoint. However, that information is intended to be used by the peer to determine if it should route traffic (e.g establish a routing table or use the address at all) to the peer, and in that case get the traffic forwarded towards an destination. Secondly, the use of the word informational could be misinterpreted to mean that the protocol mechanism is informational. To make this work it is a protocol mechanism that needs to be normatively described. \r\n\r\nThe last point in my previous comment was simply to state that there are no difference in requirement on how things are specified including security considerations and mechanism between optional to use protocol features and required ones. \r\n\r\nThe reason I am commenting on this is that I am of the belief that the general route advertisement mechanism when used for establishing routes across the masque endpoint, primarily in the network to network tunneling case one create situations where significantly more considerations are needed. If an endpoint uses an assigned address only to source locally generated packets and not to route across it many operational and security issues do disappear related to potential routing loops, return path impact, possibility to do source address validation. ",
+          "createdAt": "2021-04-16T07:17:00Z",
+          "updatedAt": "2021-04-16T07:17:00Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Thanks for clarifying. We'll add text to security considerations.",
+          "createdAt": "2021-04-16T19:05:26Z",
+          "updatedAt": "2021-04-16T19:05:26Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "MDU6SXNzdWU4NTkwMzQyMzQ=",
+      "title": "Route Advertisement: Clarify meaning of \"willing to route\"",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/3",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 6.4 says:\r\n\r\n   The ROUTE_ADVERTISEMENT message allows an endpoint to communicate to\r\n   its peer that it is willing to route traffic to a given prefix.\r\n\r\nI think willing to route traffic is unclear. I believe this to has the meaning of: The message sending party have a route to the advertised prefix and willing to forward traffic onto that route. \r\n\r\n   Upon receiving the ROUTE_ADVERTISEMENT message, an endpoint MAY start\r\n   routing IP packets in that prefix to its peer.\r\n\r\nAnd here I would clarify that the installation of a route on the receiving endpoint needs to be done only after consideration of the affect and following local security policies on the endpoint. Further see security consideration. \r\n\r\n",
+      "createdAt": "2021-04-15T16:10:21Z",
+      "updatedAt": "2021-04-15T17:21:37Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "This is a duplicate of #2. Adding text to security considerations will provide guidance to implementors.",
+          "createdAt": "2021-04-15T16:49:44Z",
+          "updatedAt": "2021-04-15T16:49:44Z"
+        },
+        {
+          "author": "gloinul",
+          "authorAssociation": "NONE",
+          "body": "Actually, not intended to be a duplicate. For the upper part I find the usage \"willing to route\" unclear in which directions that action apply. For the later part it was a suggestion to where to link in the security consideraitons and the importance of that MAY.\r\n",
+          "createdAt": "2021-04-15T16:53:33Z",
+          "updatedAt": "2021-04-15T16:53:33Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Ah, thanks for clarifying. Reopening to track clarifying what \"willing to route\" means.",
+          "createdAt": "2021-04-15T17:21:23Z",
+          "updatedAt": "2021-04-15T17:21:23Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "MDU6SXNzdWU4NTkwMzgyMjc=",
+      "title": "Better document how HTTP/3 Datagrams are used",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/4",
+      "state": "OPEN",
+      "author": "gloinul",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I am missing the definition of the usage of the HTTP/3 datagram flow-ID and how to establish that for a particular Connect-IP request. Although this likely are very similar to Connect-UDP it still needs to be defined. Although a single flow-IP per direction is likely sufficient for now as ECN, ICMP etc will be forward as part of the payload packets to the peer endpoint. \r\n\r\nFrom my perspective we clearly need capability that supports multiple parallel Connect-X requests over the same QUIC HTTP/3 connection. \r\n",
+      "createdAt": "2021-04-15T16:15:19Z",
+      "updatedAt": "2021-04-15T17:22:45Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "@gloinul you're absolutely correct. We've intentionally left this vague for now until we get resolutions on the ongoing conversations around draft-ietf-masque-h3-datagram. We'll update draft-cms-masque-connect-ip once we've made those decisions in draft-ietf-masque-h3-datagram.",
+          "createdAt": "2021-04-15T16:47:12Z",
+          "updatedAt": "2021-04-15T16:47:12Z"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "MDU6SXNzdWU4NjA4Mjc4NjQ=",
+      "title": "Work what to say about MTU",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/5",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "This isn't especially simple.  The QUIC-side MTU might change.  The QUIC-side MTU is likely smaller than the MTU for the unencapsulated IP packets.",
+      "createdAt": "2021-04-19T01:48:36Z",
+      "updatedAt": "2021-04-19T18:18:05Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bemasc",
+          "authorAssociation": "NONE",
+          "body": "More fun:\r\n* There can be multiple QUIC connection legs due to intermediaries, each with different MTU.\r\n* Who is responsible for forward fragmentation (IPv4) or synthesizing ICMP responses?  TCP MSS clamping?\r\n* MTU will be different for each flow within a request.\r\n\r\nDoing this right seems to require client and server to know the path MTU via intermediaries, treating the end-to-end connection as a single IP hop.  The obvious solution is an MTU Header that is clamped by intermediaries ... but that still wouldn't handle mobility.  The client and server could reserve an H3 Datagram flow for PMTUD ... that should work, but it sounds slow, complicated, and wasteful.",
+          "createdAt": "2021-04-19T17:41:06Z",
+          "updatedAt": "2021-04-19T17:41:06Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As a starting point, we could set the inner MTU to 1280 (this is probably over-conservative and we could go higher) and figure out a more robust mechanism to do PMTUD later / in extensions.",
+          "createdAt": "2021-04-19T17:56:14Z",
+          "updatedAt": "2021-04-19T17:56:14Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "I definitely agree that reliably figuring out the MTU is a hard problem to solve. I'll note that per-hop MTU has been broken on the Internet for quite a while, since a lot of networks drop or don't send ICMP. Modern protocols have switched to using DPLPMTUD which works end-to-end (see [RFC 8899](https://datatracker.ietf.org/doc/html/rfc8899)). This means that the world won't end if we don't have a robust mechanism to communicate MTU in CONNECT-IP.",
+          "createdAt": "2021-04-19T18:18:05Z",
+          "updatedAt": "2021-04-19T18:18:05Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "MDU6SXNzdWU4NjA5Njg0Mzc=",
+      "title": "ATOMIC_* is too open-ended",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/6",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "When reviewing for adoption, I didn't read that far down.  This design is a little frightening in how open-ended it is.\r\n\r\nGiven that the primary purpose of this is to provide a clean switch for routes without making the interface unusable, it might be easier to define just two messages:\r\n\r\n1. ROUTES - a list of routes; which clears the set of valid routes and replaces them\r\n2. ADD_ROUTE - (maybe) add a route to the current set of routes\r\n\r\nNone of the other messages seem to be needed.\r\n",
+      "createdAt": "2021-04-19T06:56:01Z",
+      "updatedAt": "2021-04-20T16:53:23Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "I think there's value in bundling the IP address assignment with the routes: it allows you to create an atomic config that an endpoint can act on all at once, for example when it creates its utun interface.",
+          "createdAt": "2021-04-19T16:03:08Z",
+          "updatedAt": "2021-04-19T16:03:08Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Additionally, bundling the IP address assignment with the routes also lets us create an easy signal for \"this is ready to go, if you send packets you should expect them to be delivered/relayed\". I think if we were to go the ROUTES/ADD_ROUTE option, we'd probably want to add an additional signal for \"Ready\". ",
+          "createdAt": "2021-04-19T17:48:53Z",
+          "updatedAt": "2021-04-19T17:48:53Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "Wouldn't it be the case that a new address is unusable until it has routes?  In that case, providing an address would be expected to be functionally inoperable until routes were provided.  (I would expect the two to be sent in close proximity, of course.)\r\n\r\nRelated to that use case, was there any thought given to constraining routes to a particular source address?  If the proxy says that it has routes, generally that will be *from* a given allocated address.  But in a multi-address configuration, you might get a second address and use routes that are configured for a first address and end up in trouble.  Some sort of address identifier might solve that problem, but that's complexity...",
+          "createdAt": "2021-04-20T01:01:04Z",
+          "updatedAt": "2021-04-20T01:01:04Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There's also the case where an address assignment may not replace previous routes, or routes do not replace previous ones. So having the ATOMIC_* bundles make it easy when you have to reset everything and also lets you expose incremental updates without having to support the full cross product for every message set.",
+          "createdAt": "2021-04-20T01:06:31Z",
+          "updatedAt": "2021-04-20T01:06:31Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "So have ROUTES and UPDATE_ROUTES (with the same data model).  You are creating something with ATOMIC_* that is vastly more complex than any of your use cases justifies.",
+          "createdAt": "2021-04-20T01:08:59Z",
+          "updatedAt": "2021-04-20T01:08:59Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "ATOMIC_* might be more general-purpose than we need, but it certainly isn't complex. It seems pretty straightforward to reason about and implement to me?",
+          "createdAt": "2021-04-20T16:53:23Z",
+          "updatedAt": "2021-04-20T16:53:23Z"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "MDU6SXNzdWU4NjA5Njk3NjE=",
+      "title": "No point to ROUTE_REJECTION",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/7",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I'm assuming that servers are the only ones that will ever really advertise routes.  (They should probably advertise ::/0 by default even.)  Why would a client reject a route as opposed to just not using it?",
+      "createdAt": "2021-04-19T06:57:34Z",
+      "updatedAt": "2021-04-20T00:56:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "ROUTE_REJECTION isn't a response to ROUTE_ADVERTISEMENT, they both go in the same direction. For example the server could say:\r\n* ROUTE_ADVERTISEMENT 0.0.0.0/0\r\n* ROUTE_REJECTION 10.0.0.0/8\r\n\r\nto indicate that it's willing to route everything (v4-wise) except for 10/8",
+          "createdAt": "2021-04-19T16:05:29Z",
+          "updatedAt": "2021-04-19T16:05:29Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Another possible name for ROUTE_REJECTION is ROUTE_WITHDRAW, but that has implications we didn't quite like, so we went with REJECTION for the initial draft.",
+          "createdAt": "2021-04-19T16:11:48Z",
+          "updatedAt": "2021-04-19T16:11:48Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "Ah, that's not particularly clear.  Maybe ROUTE_INCLUSION and ROUTE_EXCLUSION then.",
+          "createdAt": "2021-04-20T00:56:27Z",
+          "updatedAt": "2021-04-20T00:56:27Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "MDU6SXNzdWU4NjA5NzA4Njc=",
+      "title": "No need for SHUTDOWN, just close the stream",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/8",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The purpose of having a clean shutdown path for a transport-level construct is so that cleanup can occur.  Here, there will be DATAGRAM frames flying around independent of the stream, even if SHUTDOWN is sent.  Why not just close the stream when you are done?  Either endpoint can do that.",
+      "createdAt": "2021-04-19T06:58:57Z",
+      "updatedAt": "2021-04-20T01:41:41Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "SHUTDOWN's reason for existing is that it carries a Reason Phrase, which is very useful for debugging purposes.",
+          "createdAt": "2021-04-19T16:08:14Z",
+          "updatedAt": "2021-04-19T16:08:14Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "Why not use trailers?",
+          "createdAt": "2021-04-20T00:55:25Z",
+          "updatedAt": "2021-04-20T00:55:25Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "How would that work? Why use trailers over a dedicated message type over the channel?",
+          "createdAt": "2021-04-20T00:58:47Z",
+          "updatedAt": "2021-04-20T00:58:47Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "A reason phrase is a fairly specialized use case.  In my experience with HTTP/2 and HTTP/3, the message is useful vary rarely.  Trailers already exist and don't require new protocol engineering.  Why invent something when an alternative is sitting there.",
+          "createdAt": "2021-04-20T01:07:46Z",
+          "updatedAt": "2021-04-20T01:07:46Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Mechanically, how would the trailers work? I was under the impression that they were sent after \"body\" bytes, when the stream is closing -- whereas here we want to permit both sides to continue exchanging messages/packets, even if the shutdown is imminent. ",
+          "createdAt": "2021-04-20T01:10:12Z",
+          "updatedAt": "2021-04-20T01:10:12Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "Oh, that's the other aspect of this.  What value is there in signaling an intent to shutdown for this use case?  What value is there in knowing that you might need to stop exchanging packets at some arbitrary point in the future?\r\n\r\nThe way I see it, there is no \"graceful\" in any shutdown process for this, you just take the interface down when you are done.  The only thing you might need to do then is ensure that you correctly ignore any DATAGRAM frames that might be floating around for a while after you bring the hammer down.",
+          "createdAt": "2021-04-20T01:22:01Z",
+          "updatedAt": "2021-04-20T01:22:01Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The value is to allow the client to (re-)connect to another instance of the service and continue its connection. Consider the following scenario\r\n\r\nClient A is connected to Server B.\r\nServer B is about to restart to take an update.\r\nServer B sends SHUTDOWN, and has a grace period of (for example) 1 minute\r\nClient A reconnects to the same URI, but is now load balanced to Server C.\r\nWhile Client A is establishing a session with Server C, it continues its session with Server B. Once the session with Server C is ready, the client sends a FIN to Server B, and cleans up the session.\r\n\r\nAt no point does the Client experience loss of service.",
+          "createdAt": "2021-04-20T01:28:44Z",
+          "updatedAt": "2021-04-20T01:28:44Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "That sounds exactly like what GOAWAY does.",
+          "createdAt": "2021-04-20T01:30:41Z",
+          "updatedAt": "2021-04-20T01:30:41Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Unfortunately GOAWAY is only available on H2 and H3, and thus far MASQUE has indicated a desire to support H1.",
+          "createdAt": "2021-04-20T01:32:10Z",
+          "updatedAt": "2021-04-20T01:33:28Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "Maybe we can accept that HTTP/1.1 support won't be as good rather than creating an overlapping mechanism.",
+          "createdAt": "2021-04-20T01:37:00Z",
+          "updatedAt": "2021-04-20T01:37:00Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think degrading client experience just because they used an older but permitted protocol is a bad tradeoff. I'd rather we support it properly, or move to require H2 and newer and use the GOAWAY mechanism.",
+          "createdAt": "2021-04-20T01:41:41Z",
+          "updatedAt": "2021-04-20T01:41:41Z"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "MDU6SXNzdWU4NjA5NzI3MTg=",
+      "title": "Chunk type extensibility is under-specified",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/9",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I'm assuming that the model here is \"MUST-ignore unknown\", but it doesn't really say that.  It probably needs a little more language about how a design might be able to decide that a peer supports a feature, such that it can continue to use the extension without fear of wasting bandwidth.",
+      "createdAt": "2021-04-19T07:01:23Z",
+      "updatedAt": "2021-04-19T16:10:56Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "We already have this text in the Stream Chunks section:\r\n>  Endpoints that receive a chunk with an unknown CONNECT-IP Stream Chunk Type MUST silently skip over that chunk.\r\n\r\nBut I agree that we can flesh out our Extensibility Considerations section.",
+          "createdAt": "2021-04-19T16:10:56Z",
+          "updatedAt": "2021-04-19T16:10:56Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "MDU6SXNzdWU4NjA5NzcxOTc=",
+      "title": "Forwarding is under-specified",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/10",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "When an IP packet arrives, how is it forwarded?  What if the packet comes from a source outside of the declared routes?\r\n\r\nWhen a DATAGRAM or IP_PACKET chunk arrives, how is that forwarded?  What if the packet contains a source address that is not assigned?  What if the packet contains a destination address that is not within a declared route?\r\n\r\nDoes the forwarding entity touch the TTL?  That is, is it a router?  I'm guessing that it does not touch the TTL on the basis that this is effectively a protocol for remote access to an IP interface, but it's probably worth getting that down.\r\n\r\nWhat other modifications might be permitted?  Would it be reasonable to bleach DSCP or ECN or is that bad mojo?  It's probably not necessary to stipulate this as a matter of conformance, as any entity that carries IP might have their own policies regarding what they might want to do to packets, but it might be sensible to establish expectations, namely that IP packets are expected to be conveyed as received without modification assuming that the source and destination addresses are accurate.",
+      "createdAt": "2021-04-19T07:06:57Z",
+      "updatedAt": "2021-04-20T23:59:30Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "This sounds like a matter of local policy more than protocol design. If we look at the [Inbound Packet Processing section of the IPsec ESP RFC](https://datatracker.ietf.org/doc/html/rfc4303#section-3.4), it doesn't comment on what policy the decapsulating node uses.",
+          "createdAt": "2021-04-19T16:14:26Z",
+          "updatedAt": "2021-04-19T16:14:26Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would prefer that we not have to comment on these topics for CONNECT-IP. In our existing implementation in QBONE, the answer to these questions is as follows:\r\n\r\n1. Packets are forwarded by way of raw sockets if they match an assigned source address range and are targeting a destination address in the ranges specified by the route messages. If a packet cannot be forwarded/transmitted we will send back the appropriate ICMP error code.\r\n2. QBONE does not decrement the TTL.\r\n3. QBONE does not rewrite DSCP today but I think that should be explicitly permitted. Different networks use DSCP codepoints differently.\r\n4. Rewriting ECN sounds like a bad idea, if we were to delve into policy I think we should make that a SHOULD/MUST NOT.",
+          "createdAt": "2021-04-19T17:52:17Z",
+          "updatedAt": "2021-04-19T17:52:17Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "That others have neglected to specify critical functions is no excuse for making the same error.  What QBONE does (1 and 2) is entirely reasonable - and would establish the appropriate expectations.  I would be happy to avoid discussion of packet modifications.",
+          "createdAt": "2021-04-20T01:03:36Z",
+          "updatedAt": "2021-04-20T01:03:36Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Martin, do you feel this discussion belongs in this implementation document, or do you think it could/should perhaps be broken out as a separate set of recommendations? I worry about delving too far into policy because while these choices may be reasonable for the use cases we have envisioned today, I would like to avoid unnecessarily constraining things down the line. I suppose we could specify them and and revise them later if need be.",
+          "createdAt": "2021-04-20T01:08:16Z",
+          "updatedAt": "2021-04-20T01:08:16Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "I think that you need some MUST-level requirements or you don't have a protocol.",
+          "createdAt": "2021-04-20T01:09:29Z",
+          "updatedAt": "2021-04-20T01:09:29Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "@martinthomson do you have some suggestions for some MUST-level requirements? I'm not sure if you have policy in mind or mechanics, and some examples might help.",
+          "createdAt": "2021-04-20T16:52:01Z",
+          "updatedAt": "2021-04-20T16:52:01Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "There are three things you need MUSTs for:\r\n\r\n1. IP packets received by the proxy.\r\n2. IP_PACKET chunks received by the proxy.\r\n3. DATAGRAM frames received by the proxy.\r\n\r\nIn all cases, it would be if $CASE, construct $THING and forward with $DETAILS.",
+          "createdAt": "2021-04-20T23:59:30Z",
+          "updatedAt": "2021-04-20T23:59:30Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "MDU6SXNzdWU4NjA5ODQwNzg=",
+      "title": "Requesting or requiring NAT",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/11",
+      "state": "CLOSED",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I know that it is not common for this to be requested.  In fact, some services deliberately try to provide public addresses because NAT can make certain uses harder, particular bidirectional flows.\r\n\r\nThe idea is that a shared NAT is a privacy feature, especially if it is shared by many.  If the proxy can provide an address that follows a route via a router that performs NAPT from a shared address pool, then flows originating from this tunnel could be made more or less indistinguishable from flows from other users.  That means better privacy with respect to services on the other side of the NAT.\r\n\r\nThe only potential addition would be a flag on address assignments and requests indicating whether NAT is in use or preferred (respectively).  It might not need any actual protocol: you might make this a property of different MASQUE endpoints instead: this one provides NAT, this one doesn't, and this one has no guarantees either way.",
+      "createdAt": "2021-04-19T07:15:35Z",
+      "updatedAt": "2021-04-21T14:19:04Z",
+      "closedAt": "2021-04-21T14:19:04Z",
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "I'm not sure this needs to be negotiated in the protocol. As far as I know, IPsec, OpenVPN, WireGuard, et al. don't offer this negotiation. I'm inclined to treat this as a matter of local policy. ",
+          "createdAt": "2021-04-19T16:16:25Z",
+          "updatedAt": "2021-04-19T16:16:25Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Given that we're leaning towards using URIs in the discussion on #13, I would suggest that if a service operator wanted to provide such capability they could implement it with different URI endpoints. This allows this to be up to the service operator to specify as a matter of local policy and does not require any further protocol capabilities.",
+          "createdAt": "2021-04-19T17:54:05Z",
+          "updatedAt": "2021-04-19T17:54:05Z"
+        },
+        {
+          "author": "martinthomson",
+          "authorAssociation": "NONE",
+          "body": "As I was writing this up, I realized that this sort of \"optimization\" is likely a very good use of the URI.  No need for protocol specification.  Feel free to close this along with #13.",
+          "createdAt": "2021-04-20T01:04:58Z",
+          "updatedAt": "2021-04-20T01:04:58Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "Sounds good, will do. Thanks.",
+          "createdAt": "2021-04-20T16:54:24Z",
+          "updatedAt": "2021-04-20T16:54:24Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "MDU6SXNzdWU4NjA5ODU5MDI=",
+      "title": "The use of the non-specific \"endpoint\" is confusing",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/12",
+      "state": "OPEN",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Given that the roles are relatively fixed with respect to who can send what here, using \"endpoint\" makes this hard to follow.  If the idea is to allow a client might assign addresses to a server, then that's an extension.",
+      "createdAt": "2021-04-19T07:17:51Z",
+      "updatedAt": "2021-04-19T16:19:35Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "This is intentionally bidirectional: in the network-to-network use-case (see [requirements doc](https://datatracker.ietf.org/doc/html/draft-ietf-masque-ip-proxy-reqs-01#section-2.4)), the client might provide the server with an address from the client's pool.",
+          "createdAt": "2021-04-19T16:19:34Z",
+          "updatedAt": "2021-04-19T16:19:34Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "MDU6SXNzdWU4NjA5OTI5NjY=",
+      "title": "No fixed resource",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/issues/13",
+      "state": "CLOSED",
+      "author": "martinthomson",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Let the URI address any resource on the origin server/MASQUE proxy (these are the same thing here anyway), don't force the most precious resource (\"/\") to handle all this CONNECT-IP gunk.\r\n\r\nThe design does not truly depend on any information being conveyed in the CONNECT-IP request.  All the IP allocation and whatnot is done inside the stream.\r\n\r\nAs noted in other issues, there might be ways to use the resource identity to distinguish features or treatment.  Allowing CONNECT-IP on any resource would enable that style of \"negotiation\".\r\n\r\nThe cost is that your configuration for this changes from a hostname to a URL.  But that's not such a big deal.",
+      "createdAt": "2021-04-19T07:25:48Z",
+      "updatedAt": "2021-04-21T14:19:04Z",
+      "closedAt": "2021-04-21T14:19:04Z",
+      "comments": [
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "That makes sense to me. Perhaps we can say\r\n* MUST send as \"/\"\r\n* MUST ignore on receipt\r\n* extensions MAY remove these two requirements",
+          "createdAt": "2021-04-19T16:01:25Z",
+          "updatedAt": "2021-04-19T16:01:25Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Upon reflection, is there any reason to not support URIs for the CONNECT-IP method? That way you could scope the CONNECT-IP to different \"profiles\" behind different URIs. That would be more powerful than just requiring headers / vhosting to have multiple CONNECT-IP instances. Maybe we should go one step further and add support for this in the draft, rather than having it be controlled by future extensions? It doesn't seem like a lot more work to do it up front.",
+          "createdAt": "2021-04-19T16:06:07Z",
+          "updatedAt": "2021-04-19T16:06:07Z"
+        },
+        {
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "body": "That's a good point. Maybe we just say that path MUST NOT be empty and let individual deployments have their own semantics. In hindsight that's what other HTTP methods do.",
+          "createdAt": "2021-04-19T16:17:44Z",
+          "updatedAt": "2021-04-19T16:17:44Z"
+        },
+        {
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Right, whereas when we wrote this initially, we were in the CONNECT-UDP mindset, where the connection is to a different endpoint, where as here, the CONNECT-IP is to the proxy itself. We inherited the wrong semantics.",
+          "createdAt": "2021-04-19T16:22:28Z",
+          "updatedAt": "2021-04-19T16:22:28Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 14,
+      "id": "MDExOlB1bGxSZXF1ZXN0NjE5Njc4NTYy",
+      "title": "Remove hard-coding of path '/'",
+      "url": "https://github.com/DavidSchinazi/draft-cms-masque-connect-ip/pull/14",
+      "state": "MERGED",
+      "author": "achernya",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes: #11 \r\nCloses: #13 ",
+      "createdAt": "2021-04-20T20:53:48Z",
+      "updatedAt": "2021-04-21T14:19:04Z",
+      "baseRepository": "DavidSchinazi/draft-cms-masque-connect-ip",
+      "baseRefName": "main",
+      "baseRefOid": "15916aa113c5405c845338138e6869fde867c234",
+      "headRepository": "achernya/draft-cms-masque-connect-ip",
+      "headRefName": "uri",
+      "headRefOid": "2b6df1e7b737f4df9e449ca2a9df491481306b51",
+      "closedAt": "2021-04-21T14:19:04Z",
+      "mergedAt": "2021-04-21T14:19:04Z",
+      "mergedBy": "DavidSchinazi",
+      "mergeCommit": {
+        "oid": "283ace6d25b186e8a1d43119e6cda1dc3b0bd11f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQwNDE4NDI0",
+          "commit": {
+            "abbreviatedOid": "b7f4d52"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "To satisfy HTTP rules we should require a non-empty path",
+          "createdAt": "2021-04-20T21:01:35Z",
+          "updatedAt": "2021-04-20T21:02:35Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\r\n* The \":path\" pseudo-header field is set to the value provided by the client.\r\n  That value MUST NOT be empty.\r\n```",
+              "createdAt": "2021-04-20T21:01:35Z",
+              "updatedAt": "2021-04-21T14:16:37Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQxMTQ5OTIx",
+          "commit": {
+            "abbreviatedOid": "2b6df1e"
+          },
+          "author": "achernya",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2021-04-21T14:17:00Z",
+          "updatedAt": "2021-04-21T14:17:01Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Done.",
+              "createdAt": "2021-04-21T14:17:00Z",
+              "updatedAt": "2021-04-21T14:17:01Z"
+            }
+          ]
+        },
+        {
+          "id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3NjQxMTUyMTcy",
+          "commit": {
+            "abbreviatedOid": "2b6df1e"
+          },
+          "author": "DavidSchinazi",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2021-04-21T14:18:53Z",
+          "updatedAt": "2021-04-21T14:18:53Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}

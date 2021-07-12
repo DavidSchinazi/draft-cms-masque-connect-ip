@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>The CONNECT-IP HTTP Method</title>
+<meta content="Alex Chernyakhovsky" name="author">
+<meta content="Dallas McCall" name="author">
+<meta content="David Schinazi" name="author">
+<meta content="
+       This document describes the CONNECT-IP HTTP method. CONNECT-IP is similar to
+CONNECT-UDP, but allows transmitting IP packets, without being limited to just
+TCP like CONNECT or UDP like CONNECT-UDP. 
+    " name="description">
+<meta content="xml2rfc 3.9.1" name="generator">
+<meta content="Internet-Draft" name="keyword">
+<meta content="draft-cms-masque-connect-ip-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.9.1
+    Python 3.9.5
+    appdirs 1.4.4
+    ConfigArgParse 1.3
+    google-i18n-address 2.5.0
+    html5lib 1.1
+    intervaltree 3.1.0
+    Jinja2 2.11.3
+    kitchen 1.2.6
+    lxml 4.6.3
+    pycountry 20.7.3
+    pyflakes 2.3.0
+    PyYAML 5.4.1
+    requests 2.25.1
+    setuptools 52.0.0
+    six 1.15.0
+-->
+<link href="draft-cms-masque-connect-ip.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+html {
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  scrollbar-color: #bbb #eee;
+}
+@media (prefers-color-scheme: dark) {
+html {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+#title, #rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+#rfcnum + #title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p, #abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 18px;
+  line-height: 24px;
+}
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+dd.break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href].selfRef {
+  color: var(--text-color);
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px 'Oxygen Mono', monospace;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  pre {
+    display: inline-block;
+    overflow-x: auto;
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  pre + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+tr:nth-child(2n) > td {
+  background-color: var(--background-color);
+}
+tr:nth-child(2n+1) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody > tr:nth-child(2n) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody > tr:nth-child(2n+1) > td {
+  background-color: var(--background-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 8em;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  margin: 0;
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0 0 0 calc(1em + var(--identifier-width));
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 500px) {
+  .index ul {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  .index ul ul {
+    column-count: 1;
+    column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul p, #toc ul li {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left, table .text-left {
+  text-align: left;
+}
+table .text-center, table .text-center {
+  text-align: center;
+}
+table .text-right, table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">CONNECT-IP</td>
+<td class="right">July 2021</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Chernyakhovsky, et al.</td>
+<td class="center">Expires 13 January 2022</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">MASQUE</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-cms-masque-connect-ip-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2021-07-12" class="published">12 July 2021</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2022-01-13">13 January 2022</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">A. Chernyakhovsky</div>
+<div class="org">Google LLC</div>
+</div>
+<div class="author">
+      <div class="author-name">D. McCall</div>
+<div class="org">Google LLC</div>
+</div>
+<div class="author">
+      <div class="author-name">D. Schinazi</div>
+<div class="org">Google LLC</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">The CONNECT-IP HTTP Method</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document describes the CONNECT-IP HTTP method. CONNECT-IP is similar to
+CONNECT-UDP, but allows transmitting IP packets, without being limited to just
+TCP like CONNECT or UDP like CONNECT-UDP.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-discussion-venues">
+<a href="#name-discussion-venues" class="section-name selfRef">Discussion Venues</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">Discussion of this document takes place on the
+  Multiplexed Application Substrate over QUIC Encryption Working Group mailing list (masque@ietf.org),
+  which is archived at <span><a href="https://mailarchive.ietf.org/arch/browse/masque/">https://mailarchive.ietf.org/arch/browse/masque/</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+<p id="section-note.1-3">Source for this draft and an issue tracker can be found at
+  <span><a href="https://github.com/DavidSchinazi/draft-cms-masque-connect-ip">https://github.com/DavidSchinazi/draft-cms-masque-connect-ip</a></span>.<a href="#section-note.1-3" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 13 January 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2021 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Simplified BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="ulBare ulEmpty toc compact">
+<li class="ulBare ulEmpty toc compact" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
+<ul class="ulBare toc compact ulEmpty">
+<li class="ulBare toc compact ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-conventions-and-definitions" class="xref">Conventions and Definitions</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-the-connect-ip-method" class="xref">The CONNECT-IP Method</a></p>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-transmitting-ip-packets-usi" class="xref">Transmitting IP Packets using HTTP Datagrams</a></p>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-forwarding-of-ip-packets" class="xref">Forwarding of IP Packets</a></p>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-routes" class="xref">Routes</a></p>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-capsules" class="xref">Capsules</a></p>
+<ul class="ulBare toc compact ulEmpty">
+<li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-address_assign-capsule" class="xref">ADDRESS_ASSIGN Capsule</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-address_request-capsule" class="xref">ADDRESS_REQUEST Capsule</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-route_advertisement-capsule" class="xref">ROUTE_ADVERTISEMENT Capsule</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.4">
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="xref">6.4</a>.  <a href="#name-route_rejection-capsule" class="xref">ROUTE_REJECTION Capsule</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.5">
+                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="xref">6.5</a>.  <a href="#name-route_reset-capsule" class="xref">ROUTE_RESET Capsule</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.6">
+                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="xref">6.6</a>.  <a href="#name-shutdown-capsule" class="xref">SHUTDOWN Capsule</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.7">
+                <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="xref">6.7</a>.  <a href="#name-atomic_start-capsule" class="xref">ATOMIC_START Capsule</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.6.2.8">
+                <p id="section-toc.1-1.6.2.8.1"><a href="#section-6.8" class="xref">6.8</a>.  <a href="#name-atomic_end-capsule" class="xref">ATOMIC_END Capsule</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-extensibility-consideration" class="xref">Extensibility Considerations</a></p>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
+<ul class="ulBare toc compact ulEmpty">
+<li class="ulBare toc compact ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-http-method" class="xref">HTTP Method</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-capsule-type-registrations" class="xref">Capsule Type Registrations</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-references" class="xref">References</a></p>
+<ul class="ulBare toc compact ulEmpty">
+<li class="ulBare toc compact ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="xref">10.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+</li>
+              <li class="ulBare toc compact ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="xref">10.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="xref">Appendix A</a>.  <a href="#name-examples" class="xref">Examples</a></p>
+<ul class="ulBare toc compact ulEmpty">
+<li class="ulBare toc compact ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-A.1" class="xref">A.1</a>.  <a href="#name-consumer-vpn" class="xref">Consumer VPN</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="xref"></a><a href="#name-acknowledgments" class="xref">Acknowledgments</a></p>
+</li>
+          <li class="ulBare ulEmpty toc compact" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">This document describes the CONNECT-IP HTTP method. CONNECT-IP is similar to
+CONNECT-UDP, but allows transmitting IP packets, without being limited to just
+TCP like CONNECT or UDP like CONNECT-UDP.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">CONNECT-IP allows endpoints to set up an IP tunnel between one another. This
+can be used to implement a consumer VPN, point-to-point, point-to-network, and
+network-to-network capabilities as described in
+<span>[<a href="#REQS" class="xref">REQS</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<div id="conventions">
+<section id="section-1.1">
+        <h3 id="name-conventions-and-definitions">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+        </h3>
+<p id="section-1.1-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span>
+when, and only when, they appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-1.1-2">In this document, we use the term "proxy" to refer to the HTTP server that
+responds to the CONNECT-IP request. If there are
+HTTP intermediaries (as defined in Section 2.3 of <span>[<a href="#RFC7230" class="xref">RFC7230</a>]</span>) between the
+client and the proxy, those are referred to as "intermediaries" in this
+document.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="connect-ip-method">
+<section id="section-2">
+      <h2 id="name-the-connect-ip-method">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-connect-ip-method" class="section-name selfRef">The CONNECT-IP Method</a>
+      </h2>
+<p id="section-2-1">The CONNECT-IP method establishes a stream to an endpoint server that then
+permits the exchange of control data, such as IP address information, reachable
+IP ranges, and other relevant information for successfully transmitting IP
+datagrams between hosts.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">The request-target of a CONNECT-IP request is a URI <span>[<a href="#URI" class="xref">URI</a>]</span> which uses
+the "https" scheme and a client-specified path. When using HTTP/2
+<span>[<a href="#H2" class="xref">H2</a>]</span> or later, CONNECT-IP requests use HTTP pseudo-headers with the
+following requirements:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-3.1">The ":method" pseudo-header field is set to "CONNECT-IP".<a href="#section-2-3.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.2">The ":scheme" pseudo-header field is set to "https".<a href="#section-2-3.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.3">The ":path" pseudo-header field is set to the value provided by the
+client. That value MUST NOT be empty.<a href="#section-2-3.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.4">The ":authority" pseudo-header field contains the host and port of the proxy.
+The target of a CONNECT-IP request is the server providing the CONNECT-IP
+featureset, not an individual endpoint with which a connection is desired.<a href="#section-2-3.4" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-2-4">A CONNECT-IP request that does not conform to these restrictions is
+malformed (see <span>[<a href="#H2" class="xref">H2</a>]</span>, Section 8.1.2.6).<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">Any 2xx (Successful) response indicates that the proxy is willing to open an IP
+tunnel between it and the client. Any response other than a successful response
+indicates that the tunnel has not yet been formed.<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">A proxy MUST NOT send any Transfer-Encoding or Content-Length header fields in
+a 2xx (Successful) response to CONNECT-IP. A client MUST treat a successful
+response to CONNECT-IP containing any Content-Length or Transfer-Encoding
+header fields as malformed.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">A payload within a CONNECT-IP request message has no defined semantics; a
+CONNECT-IP request with a non-empty payload is malformed. Note that the
+CONNECT-IP stream is used to convey control messages, but they are not
+semantically part of the request or response themselves.<a href="#section-2-7" class="pilcrow">¶</a></p>
+<p id="section-2-8">Responses to the CONNECT-IP method are not cacheable.<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-9">The lifetime of the tunnel is tied to the CONNECT-IP stream. Closing the stream
+(via the FIN bit on a QUIC STREAM frame, or a QUIC RESET_STREAM frame) closes
+the associated tunnel.<a href="#section-2-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="transmitting-ip-packets-using-http-datagrams">
+<section id="section-3">
+      <h2 id="name-transmitting-ip-packets-usi">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-transmitting-ip-packets-usi" class="section-name selfRef">Transmitting IP Packets using HTTP Datagrams</a>
+      </h2>
+<p id="section-3-1">IP packets are sent using HTTP Datagrams
+<span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span>. The HTTP Datagram Payload contains
+a full IP packet, from the IP Version field until the last byte of the IP
+Payload. In order to use HTTP Datagrams, the CONNECT-IP client will first
+decide whether or not to use HTTP Datagram Contexts and then register its
+context ID (or lack thereof) using the corresponding registration capsule, see
+<span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Since HTTP Datagrams require prior negotiation (for example, in HTTP/3 it is
+necessary to both send and receive the H3_DATAGRAM SETTINGS Parameter), clients
+MUST NOT send any HTTP Datagrams until they have established support on a given
+connection. If negotiation of HTTP Datagrams fails (for example if an HTTP/3
+SETTINGS frame was received without the H3_DATAGRAM SETTINGS Parameter), the
+client MUST consider its CONNECT-IP request as failed.<a href="#section-3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="forwarding-of-ip-packets">
+<section id="section-4">
+      <h2 id="name-forwarding-of-ip-packets">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-forwarding-of-ip-packets" class="section-name selfRef">Forwarding of IP Packets</a>
+      </h2>
+<p id="section-4-1">Since CONNECT-IP allows the transmission of IP packets over HTTP, CONNECT-IP
+endpoints will most often forward these packets to and from traditional IP
+interfaces. As such, CONNECT-IP endpoints act as IP routers. When a CONNECT-IP
+endpoint receives an HTTP Datagram containing an IP packet, it will parse the
+packet's IP header, perform any local policy checks (e.g., source address
+validation), check their routing table to pick an outbound interface, and then
+use an implementation-specific mechanism (such as raw sockets) to send the IP
+packet on that interface.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">Conversely, when a CONNECT-IP endpoint receives an IP packet whose destination
+address does not match any local addresses, it consults its routing table to
+pick a forwarding destination, and if the table points to a CONNECT-IP tunnel,
+the endpoint performs the same forwarding checks before transmitting the packet
+inside the tunnel.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">Note that CONNECT-IP endpoints will decrement the IP Hop Count (or TTL) upon
+encapsulation but not decapsulation. In other words, the Hop Count is
+decremented right before an IP packet is transmitted in an HTTP Datagram. This
+prevents infinite loops in the presence of routing loops, and matches the
+choices in IPsec <span>[<a href="#IPSEC" class="xref">IPSEC</a>]</span>.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">Endpoints MAY implement additional filtering policies on the IP packets they
+forward.<a href="#section-4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="routes">
+<section id="section-5">
+      <h2 id="name-routes">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-routes" class="section-name selfRef">Routes</a>
+      </h2>
+<p id="section-5-1">Endpoints have the ability to advertise and reject routes using the
+ROUTE_ADVERTISEMENT (<a href="#route-adv" class="xref">Section 6.3</a>) and ROUTE_REJECTION (<a href="#route-adv" class="xref">Section 6.3</a>)
+capsule. Note that these capsules are purely informational: receipt of a
+ROUTE_ADVERTISEMENT capsule does not require the recipient to start routing
+traffic to its peer. Additionally, if an endpoint receives a ROUTE_REJECTION
+for a given prefix that it had previously received a ROUTE_ADVERTISEMENT
+capsule for, then the two cancel out and the endpoint MUST remove its state
+from the ROUTE_ADVERTISEMENT capsule instead of installing new state for the
+ROUTE_REJECTION capsule. Conversely, the same is true of a ROUTE_ADVERTISEMENT
+that matches a previous ROUTE_REJECTION. Routes are handled via
+longest-prefix-first preference, meaning that if a given IP prefix is covered
+by multiple route advertisement and route rejections, the one with the longest
+prefix is used.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">When processing ROUTE_ADVERTISEMENT capsules, endpoints MUST check their local
+policy before deciding whether to forward packets to their peer. Since ignoring
+these capsules is allowed by the protocol, such policy decisions will not
+prevent interoperability.<a href="#section-5-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="capsules">
+<section id="section-6">
+      <h2 id="name-capsules">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-capsules" class="section-name selfRef">Capsules</a>
+      </h2>
+<div id="addressassign-capsule">
+<section id="section-6.1">
+        <h3 id="name-address_assign-capsule">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-address_assign-capsule" class="section-name selfRef">ADDRESS_ASSIGN Capsule</a>
+        </h3>
+<p id="section-6.1-1">The ADDRESS_ASSIGN capsule allows an endpoint to inform its peer that it has
+assigned an IP address to it. It allows assigning a prefix which can contain
+multiple addresses. This capsule uses a Capsule Type of 0xfff100. Its value
+uses the following format:<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<span id="name-address_assign-capsule-form"></span><div id="addr-assign-format">
+<figure id="figure-1">
+          <div class="artwork art-text alignLeft" id="section-6.1-2.1">
+<pre>
+ADDRESS_ASSIGN Capsule {
+  IP Version (8),
+  IP Address (32..128),
+  IP Prefix Length (8),
+}
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-address_assign-capsule-form" class="selfRef">ADDRESS_ASSIGN Capsule Format</a>
+          </figcaption></figure>
+</div>
+<span class="break"></span><dl class="dlParallel" id="section-6.1-3">
+          <dt id="section-6.1-3.1">
+IP Version:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.1-3.2">
+            <p id="section-6.1-3.2.1">IP Version of this address assignment. MUST be either 4 or 6.<a href="#section-6.1-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.1-3.3">
+IP Address:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.1-3.4">
+            <p id="section-6.1-3.4.1">Assigned IP address. If the IP Version field has value 4, the IP Address
+field SHALL have a length of 32 bits. If the IP Version field has value 6, the
+IP Address field SHALL have a length of 128 bits.<a href="#section-6.1-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.1-3.5">
+IP Prefix Length:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.1-3.6">
+            <p id="section-6.1-3.6.1">Length of the IP Prefix assigned, in bits. MUST be lesser or equal to the
+length of the IP Address field, in bits.<a href="#section-6.1-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="addressrequest-capsule">
+<section id="section-6.2">
+        <h3 id="name-address_request-capsule">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-address_request-capsule" class="section-name selfRef">ADDRESS_REQUEST Capsule</a>
+        </h3>
+<p id="section-6.2-1">The ADDRESS_REQUEST capsule allows an endpoint to request assignment of an IP
+address from its peer. It allows the endpoint to optionally indicate a
+preference for which address it would get assigned. This capsule uses a Capsule
+Type of 0xfff101. Its value uses the following format:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<span id="name-address_request-capsule-for"></span><div id="addr-req-format">
+<figure id="figure-2">
+          <div class="artwork art-text alignLeft" id="section-6.2-2.1">
+<pre>
+ADDRESS_REQUEST Capsule {
+  IP Version (8),
+  IP Address (32..128),
+  IP Prefix Length (8),
+}
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-address_request-capsule-for" class="selfRef">ADDRESS_REQUEST Capsule Format</a>
+          </figcaption></figure>
+</div>
+<span class="break"></span><dl class="dlParallel" id="section-6.2-3">
+          <dt id="section-6.2-3.1">
+IP Version:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.2-3.2">
+            <p id="section-6.2-3.2.1">IP Version of this address request. MUST be either 4 or 6.<a href="#section-6.2-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.2-3.3">
+IP Address:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.2-3.4">
+            <p id="section-6.2-3.4.1">Requested IP address. If the IP Version field has value 4, the IP Address
+field SHALL have a length of 32 bits. If the IP Version field has value 6, the
+IP Address field SHALL have a length of 128 bits.<a href="#section-6.2-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.2-3.5">
+IP Prefix Length:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.2-3.6">
+            <p id="section-6.2-3.6.1">Length of the IP Prefix requested, in bits. MUST be lesser or equal to the
+length of the IP Address field, in bits.<a href="#section-6.2-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-6.2-4">Upon receiving the ADDRESS_REQUEST capsule, an endpoint SHOULD assign an IP
+address to its peer, and then respond with an ADDRESS_ASSIGN capsule to inform
+the peer of the assignment.<a href="#section-6.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="route-adv">
+<section id="section-6.3">
+        <h3 id="name-route_advertisement-capsule">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-route_advertisement-capsule" class="section-name selfRef">ROUTE_ADVERTISEMENT Capsule</a>
+        </h3>
+<p id="section-6.3-1">The ROUTE_ADVERTISEMENT capsule allows an endpoint to communicate to its peer
+that it is willing to route traffic to a given prefix. This indicates that the
+sender has an existing route to the prefix, and notifies its peer that if the
+receiver of the ROUTE_ADVERTISEMENT capsule sends IP packets for this prefix in
+HTTP Datagrams, the sender of the capsule will forward them along its
+preexisting route. This capsule uses a Capsule Type of 0xfff102. Its value uses
+the following format:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<span id="name-route_advertisement-capsule-"></span><div id="route-adv-format">
+<figure id="figure-3">
+          <div class="artwork art-text alignLeft" id="section-6.3-2.1">
+<pre>
+ROUTE_ADVERTISEMENT Capsule {
+  IP Version (8),
+  IP Address (32..128),
+  IP Prefix Length (8),
+}
+</pre>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-route_advertisement-capsule-" class="selfRef">ROUTE_ADVERTISEMENT Capsule Format</a>
+          </figcaption></figure>
+</div>
+<span class="break"></span><dl class="dlParallel" id="section-6.3-3">
+          <dt id="section-6.3-3.1">
+IP Version:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.3-3.2">
+            <p id="section-6.3-3.2.1">IP Version of this route advertisement. MUST be either 4 or 6.<a href="#section-6.3-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.3-3.3">
+IP Address:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.3-3.4">
+            <p id="section-6.3-3.4.1">IP address of the advertised route. If the IP Version field has value 4, the
+IP Address field SHALL have a length of 32 bits. If the IP Version field has
+value 6, the IP Address field SHALL have a length of 128 bits.<a href="#section-6.3-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.3-3.5">
+IP Prefix Length:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.3-3.6">
+            <p id="section-6.3-3.6.1">Length of the IP Prefix of the advertised route, in bits. MUST be lesser or
+equal to the length of the IP Address field, in bits.<a href="#section-6.3-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-6.3-4">Upon receiving the ROUTE_ADVERTISEMENT capsule, an endpoint MAY start routing
+IP packets in that prefix to its peer.<a href="#section-6.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="route-rej">
+<section id="section-6.4">
+        <h3 id="name-route_rejection-capsule">
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-route_rejection-capsule" class="section-name selfRef">ROUTE_REJECTION Capsule</a>
+        </h3>
+<p id="section-6.4-1">The ROUTE_REJECTION capsule allows an endpoint to communicate to its peer that
+it is not willing to route traffic to a given prefix. This capsule uses a
+Capsule Type of 0xfff103. Its value uses the following format:<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<span id="name-route_rejection-capsule-for"></span><div id="route-rej-format">
+<figure id="figure-4">
+          <div class="artwork art-text alignLeft" id="section-6.4-2.1">
+<pre>
+ROUTE_REJECTION Capsule {
+  IP Version (8),
+  IP Address (32..128),
+  IP Prefix Length (8),
+}
+</pre>
+</div>
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<a href="#name-route_rejection-capsule-for" class="selfRef">ROUTE_REJECTION Capsule Format</a>
+          </figcaption></figure>
+</div>
+<span class="break"></span><dl class="dlParallel" id="section-6.4-3">
+          <dt id="section-6.4-3.1">
+IP Version:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.4-3.2">
+            <p id="section-6.4-3.2.1">IP Version of this route rejection. MUST be either 4 or 6.<a href="#section-6.4-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.4-3.3">
+IP Address:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.4-3.4">
+            <p id="section-6.4-3.4.1">IP address of the rejected route. If the IP Version field has value 4, the IP
+Address field SHALL have a length of 32 bits. If the IP Version field has value
+6, the IP Address field SHALL have a length of 128 bits.<a href="#section-6.4-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-6.4-3.5">
+IP Prefix Length:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.4-3.6">
+            <p id="section-6.4-3.6.1">Length of the IP Prefix of the advertised route, in bits. MUST be lesser or
+equal to the length of the IP Address field, in bits.<a href="#section-6.4-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-6.4-4">Upon receiving the ROUTE_REJECTION capsule, an endpoint MUST stop routing IP
+packets in that prefix to its peer. Note that this capsule can be reordered
+with DATAGRAM frames, and therefore an endpoint that receives packets for
+routes it has rejected MUST NOT treat that as an error.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="route-reset">
+<section id="section-6.5">
+        <h3 id="name-route_reset-capsule">
+<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-route_reset-capsule" class="section-name selfRef">ROUTE_RESET Capsule</a>
+        </h3>
+<p id="section-6.5-1">The ROUTE_RESET capsule allows an endpoint to cancel any routes it had
+previously advertised or denied. This capsule uses a Capsule Type of 0xfff104.
+Its value uses the following format:<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<span id="name-route_reset-capsule-format"></span><div id="route-reset-format">
+<figure id="figure-5">
+          <div class="artwork art-text alignLeft" id="section-6.5-2.1">
+<pre>
+ROUTE_RESET Capsule {
+}
+</pre>
+</div>
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<a href="#name-route_reset-capsule-format" class="selfRef">ROUTE_RESET Capsule Format</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.5-3">Upon receiving the ROUTE_RESET capsule, an endpoint MUST stop routing IP
+packets to its peer. Note that this capsule can be reordered with DATAGRAM
+frames, and therefore an endpoint that receives packets for routes it has
+rejected MUST NOT treat that as an error.<a href="#section-6.5-3" class="pilcrow">¶</a></p>
+<p id="section-6.5-4">The main purpose of the ROUTE_RESET capsule is to allow endpoints to not have
+to remember the full list of routes they have shared with their peer. In
+practice, it is expected that ROUTE_RESET capsules will be closely followed by
+ROUTE_ADVERTISEMENT capsules that will refill the routing table that was just
+cleared.<a href="#section-6.5-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="shutdown-capsule">
+<section id="section-6.6">
+        <h3 id="name-shutdown-capsule">
+<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-shutdown-capsule" class="section-name selfRef">SHUTDOWN Capsule</a>
+        </h3>
+<p id="section-6.6-1">The SHUTDOWN capsule allows an endpoint to communicate to its peer that it is
+about to close the CONNECT-IP stream, with a string explaining the reason for
+the shutdown. This capsule uses a Capsule Type of 0xfff105. Its value uses the
+following format:<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+<span id="name-shutdown-capsule-format"></span><div id="shutdown-format">
+<figure id="figure-6">
+          <div class="artwork art-text alignLeft" id="section-6.6-2.1">
+<pre>
+SHUTDOWN Capsule {
+  Reason Phrase (..),
+}
+</pre>
+</div>
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<a href="#name-shutdown-capsule-format" class="selfRef">SHUTDOWN Capsule Format</a>
+          </figcaption></figure>
+</div>
+<span class="break"></span><dl class="dlParallel" id="section-6.6-3">
+          <dt id="section-6.6-3.1">
+Reason Phrase:  </dt>
+          <dd style="margin-left: 1.5em" id="section-6.6-3.2">
+            <p id="section-6.6-3.2.1">Additional diagnostic information for the shutdown. This SHOULD be
+a UTF-8 encoded string <span>[<a href="#UTF8" class="xref">UTF8</a>]</span>, though the frame does not carry
+information, such as language tags, that would aid comprehension by any entity
+other than the one that created the text.<a href="#section-6.6-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-6.6-4">Note that the SHUTDOWN capsule is informational, the tunnel is only closed when
+its corresponding CONNECT-IP stream is closed. Endpoints MAY close the tunnel
+with a reason phrase by sending the SHUTDOWN capsule with the FIN bit set on
+the underlying QUIC STREAM frame that carried it.<a href="#section-6.6-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="atomicstart-capsule">
+<section id="section-6.7">
+        <h3 id="name-atomic_start-capsule">
+<a href="#section-6.7" class="section-number selfRef">6.7. </a><a href="#name-atomic_start-capsule" class="section-name selfRef">ATOMIC_START Capsule</a>
+        </h3>
+<p id="section-6.7-1">The ATOMIC_START capsule allows an endpoint to create an atomic set of
+capsules. This capsule uses a Capsule Type of 0xfff106. Its value uses the
+following format:<a href="#section-6.7-1" class="pilcrow">¶</a></p>
+<span id="name-atomic_start-capsule-format"></span><div id="atomic-start-format">
+<figure id="figure-7">
+          <div class="artwork art-text alignLeft" id="section-6.7-2.1">
+<pre>
+ATOMIC_START Capsule {
+}
+</pre>
+</div>
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
+<a href="#name-atomic_start-capsule-format" class="selfRef">ATOMIC_START Capsule Format</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.7-3">Upon receiving an ATOMIC_START capsule, an endpoint MUST buffer all incoming
+known CONNECT-IP-specific capsules (i.e., capsules defined in this document)
+until it receives an ATOMIC_END capsule. Endpoints MUST NOT send two
+ATOMIC_START capsules without an ATOMIC_END capsule between them.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
+<p id="section-6.7-4">Endpoints MUST NOT buffer unknown capsules. Endpoints MAY choose to immediately
+process IP_PACKET and SHUTDOWN capsules instead of buffering them. Capsules
+defined in other documents are by default not buffered by ATOMIC_START.
+Extensions that register new capsule types MAY specify that these capsules
+should be buffered by ATOMIC_START, and whether it is allowed to skip buffering
+for them.<a href="#section-6.7-4" class="pilcrow">¶</a></p>
+<p id="section-6.7-5">The purpose of this frame is to avoid timing issues where an endpoint installs
+a route before an important route rejection was received. Endpoints SHOULD
+group their initial configuration into an atomic block to allow their peer to
+mark the tunnel as operational once the whole block is parsed.<a href="#section-6.7-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="atomicend-capsule">
+<section id="section-6.8">
+        <h3 id="name-atomic_end-capsule">
+<a href="#section-6.8" class="section-number selfRef">6.8. </a><a href="#name-atomic_end-capsule" class="section-name selfRef">ATOMIC_END Capsule</a>
+        </h3>
+<p id="section-6.8-1">The ATOMIC_END capsule allows an endpoint to end an atomic set of capsules.
+This capsule uses a Capsule Type of 0xfff107. Its value uses the following
+format:<a href="#section-6.8-1" class="pilcrow">¶</a></p>
+<span id="name-atomic_end-capsule-format"></span><div id="atomic-end-format">
+<figure id="figure-8">
+          <div class="artwork art-text alignLeft" id="section-6.8-2.1">
+<pre>
+ATOMIC_END Capsule {
+}
+</pre>
+</div>
+<figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
+<a href="#name-atomic_end-capsule-format" class="selfRef">ATOMIC_END Capsule Format</a>
+          </figcaption></figure>
+</div>
+<p id="section-6.8-3">Upon receiving an ATOMIC_END capsule, an endpoint MUST parse all previously
+buffered capsules, in order of receipt. Endpoints MUST NOT send an ATOMIC_END
+capsule without a preceding ATOMIC_START capsule.<a href="#section-6.8-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="extensibility-considerations">
+<section id="section-7">
+      <h2 id="name-extensibility-consideration">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-extensibility-consideration" class="section-name selfRef">Extensibility Considerations</a>
+      </h2>
+<p id="section-7-1">CONNECT-IP can be extended via multiple mechanisms to increase functionality.
+There are three main ways to extend CONNECT-IP: HTTP headers, Capsule Types,
+and HTTP Datagram Registration Extension Data. For example, an authentication
+extension could define an HTTP header that allows endpoints to send
+authentication credentials to their peer during the creation of the tunnel.
+Alternatively, one could specify an extension that defines a new Capsule Type
+which allows exchanging DNS configuration between endpoints. Additionally, an
+extension to CONNECT-IP can use multiple HTTP Datagram Contexts <span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span>
+simultaneously to compress some IP packets by associating the compression
+context with an HTTP Datagram Context ID.<a href="#section-7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-8">
+      <h2 id="name-security-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-8-1">There are significant risks in allowing arbitrary clients to establish a tunnel
+to arbitrary servers, as that could allow bad actors to send traffic and have
+it attributed to the proxy. Proxies that support CONNECT-IP SHOULD restrict its
+use to authenticated users. The HTTP Authorization header <span>[<a href="#AUTH" class="xref">AUTH</a>]</span> MAY
+be used to authenticate clients. More complex authentication schemes are out of
+scope for this document but can be implemented using CONNECT-IP extensions.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">Since CONNECT-IP endpoints can proxy IP packets send by their peer, they SHOULD
+follow the guidance in <span>[<a href="#BCP38" class="xref">BCP38</a>]</span> to help prevent denial of service
+attacks.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">In theory, endpoints could use ROUTE_ADVERTISEMENT capsules to divert traffic
+from naive endpoints. To avoid this, receivers of ROUTE_ADVERTISEMENT capsules
+MUST check their local policy before acting on such capsules, see <a href="#routes" class="xref">Section 5</a>.<a href="#section-8-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana">
+<section id="section-9">
+      <h2 id="name-iana-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="iana-method">
+<section id="section-9.1">
+        <h3 id="name-http-method">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-http-method" class="section-name selfRef">HTTP Method</a>
+        </h3>
+<p id="section-9.1-1">This document will request IANA to register "CONNECT-IP" in the
+HTTP Method Registry (IETF review) maintained at
+&lt;<span><a href="https://www.iana.org/assignments/http-methods">https://www.iana.org/assignments/http-methods</a></span>&gt;.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-9.1-2">
+<pre>
+  +-------------+------+------------+---------------+
+  | Method Name | Safe | Idempotent |   Reference   |
+  +-------------+------+------------+---------------+
+  | CONNECT-IP  |  no  |     no     | This document |
+  +-------------+------+------------+---------------+
+</pre><a href="#section-9.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="iana-capsule-types">
+<section id="section-9.2">
+        <h3 id="name-capsule-type-registrations">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-capsule-type-registrations" class="section-name selfRef">Capsule Type Registrations</a>
+        </h3>
+<p id="section-9.2-1">This document will request IANA to add the following values to the "HTTP
+Capsule Types" registry created by <span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span>:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-9.2-2">
+<pre>
++----------+---------------------+---------------------+---------------+
+|   Value  |        Type         |      Description    |   Reference   |
++----------+---------------------+---------------------+---------------+
+| 0xfff100 |   ADDRESS_ASSIGN    | Address Assignment  | This document |
+| 0xfff101 |   ADDRESS_REQUEST   | Address Request     | This document |
+| 0xfff102 | ROUTE_ADVERTISEMENT | Route Advertisement | This document |
+| 0xfff103 |   ROUTE_REJECTION   | Route Rejection     | This document |
+| 0xfff104 |     ROUTE_RESET     | Route Reset         | This document |
+| 0xfff105 |      SHUTDOWN       | Shutdown Reason     | This document |
+| 0xfff106 |    ATOMIC_START     | Atomic Start        | This document |
+| 0xfff107 |     ATOMIC_END      | Atomic End          | This document |
++----------+---------------------+---------------------+---------------+
+</pre><a href="#section-9.2-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<section id="section-10">
+      <h2 id="name-references">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-10.1">
+        <h3 id="name-normative-references">
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="BCP38">[BCP38]</dt>
+        <dd>
+<span class="refAuthor">Ferguson, P.</span> and <span class="refAuthor">D. Senie</span>, <span class="refTitle">"Network Ingress Filtering: Defeating Denial of Service Attacks which employ IP Source Address Spoofing"</span>, <span class="seriesInfo">BCP 38</span>, <span class="seriesInfo">RFC 2827</span>, <span class="seriesInfo">DOI 10.17487/RFC2827</span>, <time datetime="2000-05" class="refDate">May 2000</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2827">https://datatracker.ietf.org/doc/html/rfc2827</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="H2">[H2]</dt>
+        <dd>
+<span class="refAuthor">Belshe, M.</span>, <span class="refAuthor">Peon, R.</span>, and <span class="refAuthor">M. Thomson, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol Version 2 (HTTP/2)"</span>, <span class="seriesInfo">RFC 7540</span>, <span class="seriesInfo">DOI 10.17487/RFC7540</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7540">https://datatracker.ietf.org/doc/html/rfc7540</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="HTTP-DGRAM">[HTTP-DGRAM]</dt>
+        <dd>
+<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"Using Datagrams with HTTP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-masque-h3-datagram-03</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-03">https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-03</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7230">[RFC7230]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span> and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing"</span>, <span class="seriesInfo">RFC 7230</span>, <span class="seriesInfo">DOI 10.17487/RFC7230</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7230">https://datatracker.ietf.org/doc/html/rfc7230</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8174">https://datatracker.ietf.org/doc/html/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="URI">[URI]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3986">https://datatracker.ietf.org/doc/html/rfc3986</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="UTF8">[UTF8]</dt>
+      <dd>
+<span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <span class="seriesInfo">DOI 10.17487/RFC3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3629">https://datatracker.ietf.org/doc/html/rfc3629</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-10.2">
+        <h3 id="name-informative-references">
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="AUTH">[AUTH]</dt>
+        <dd>
+<span class="refAuthor">Fielding, R., Ed.</span> and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Authentication"</span>, <span class="seriesInfo">RFC 7235</span>, <span class="seriesInfo">DOI 10.17487/RFC7235</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7235">https://datatracker.ietf.org/doc/html/rfc7235</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IPSEC">[IPSEC]</dt>
+        <dd>
+<span class="refAuthor">Kent, S.</span> and <span class="refAuthor">K. Seo</span>, <span class="refTitle">"Security Architecture for the Internet Protocol"</span>, <span class="seriesInfo">RFC 4301</span>, <span class="seriesInfo">DOI 10.17487/RFC4301</span>, <time datetime="2005-12" class="refDate">December 2005</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc4301">https://datatracker.ietf.org/doc/html/rfc4301</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="REQS">[REQS]</dt>
+      <dd>
+<span class="refAuthor">Chernyakhovsky, A.</span>, <span class="refAuthor">McCall, D.</span>, and <span class="refAuthor">D. Schinazi</span>, <span class="refTitle">"Requirements for a MASQUE Protocol to Proxy IP Traffic"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-masque-ip-proxy-reqs-02</span>, <time datetime="2021-04-30" class="refDate">30 April 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-masque-ip-proxy-reqs-02">https://datatracker.ietf.org/doc/html/draft-ietf-masque-ip-proxy-reqs-02</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</section>
+<div id="examples">
+<section id="appendix-A">
+      <h2 id="name-examples">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+      </h2>
+<div id="consumer-vpn">
+<section id="appendix-A.1">
+        <h3 id="name-consumer-vpn">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-consumer-vpn" class="section-name selfRef">Consumer VPN</a>
+        </h3>
+<p id="appendix-A.1-1">In this scenario, the client will typically receive a single IP address that
+the proxy has picked from a pool of addresses it maintains. The client will
+route all traffic through the tunnel. The exchange could look as follows:<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="appendix-A.1-2">
+<pre>
+    Client                                             Server
+
+    ADDRESS_REQUEST          --------&gt;
+      IP Version = 4
+      IP Address = 0.0.0.0
+      IP Prefix Length = 0
+
+                             &lt;--------  ADDRESS_ASSIGN
+                                          IP Version = 4
+                                          IP Address = 192.0.2.42
+                                          IP Prefix Length = 32
+
+                             &lt;--------  ROUTE_ADVERTISEMENT
+                                          IP Version = 4
+                                          IP Address = 0.0.0.0
+                                          IP Prefix Length = 0
+</pre><a href="#appendix-A.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-B">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-B-1">The design of CONNECT-IP was inspired by discussions in the MASQUE working
+group around <span>[<a href="#REQS" class="xref">REQS</a>]</span>. The authors would like to thank participants in those
+discussions for their feedback.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-C">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Alex Chernyakhovsky</span></div>
+<div dir="auto" class="left"><span class="org">Google LLC</span></div>
+<div dir="auto" class="left"><span class="street-address">1600 Amphitheatre Parkway</span></div>
+<div dir="auto" class="left">
+<span class="locality">Mountain View, California 94043</span>,  </div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:achernya@google.com" class="email">achernya@google.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Dallas McCall</span></div>
+<div dir="auto" class="left"><span class="org">Google LLC</span></div>
+<div dir="auto" class="left"><span class="street-address">1600 Amphitheatre Parkway</span></div>
+<div dir="auto" class="left">
+<span class="locality">Mountain View, California 94043</span>,  </div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dallasmccall@google.com" class="email">dallasmccall@google.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">David Schinazi</span></div>
+<div dir="auto" class="left"><span class="org">Google LLC</span></div>
+<div dir="auto" class="left"><span class="street-address">1600 Amphitheatre Parkway</span></div>
+<div dir="auto" class="left">
+<span class="locality">Mountain View, California 94043</span>,  </div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dschinazi.ietf@gmail.com" class="email">dschinazi.ietf@gmail.com</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
