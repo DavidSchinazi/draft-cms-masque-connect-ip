@@ -358,13 +358,16 @@ ATOMIC_START Capsule {
 {: #atomic-start-format title="ATOMIC_START Capsule Format"}
 
 Upon receiving an ATOMIC_START capsule, an endpoint MUST buffer all incoming
-known capsules until it receives an ATOMIC_END capsule. Endpoints MUST NOT send
-two ATOMIC_START capsules without an ATOMIC_END capsule between them.
+known CONNECT-IP-specific capsules (i.e., capsules defined in this document)
+until it receives an ATOMIC_END capsule. Endpoints MUST NOT send two
+ATOMIC_START capsules without an ATOMIC_END capsule between them.
 
 Endpoints MUST NOT buffer unknown capsules. Endpoints MAY choose to immediately
-process IP_PACKET and SHUTDOWN capsules instead of buffering them. Extensions
-that register new capsule types MAY specify that it is allowed to skip
-buffering for them.
+process IP_PACKET and SHUTDOWN capsules instead of buffering them. Capsules
+defined in other documents are by default not buffered by ATOMIC_START.
+Extensions that register new capsule types MAY specify that these capsules
+should be buffered by ATOMIC_START, and whether it is allowed to skip buffering
+for them.
 
 The purpose of this frame is to avoid timing issues where an endpoint installs
 a route before an important route rejection was received. Endpoints SHOULD
