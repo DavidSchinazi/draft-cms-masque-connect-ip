@@ -125,7 +125,10 @@ the associated tunnel.
 IP packets are sent using HTTP Datagrams
 {{!HTTP-DGRAM=I-D.ietf-masque-h3-datagram}}. The HTTP Datagram Payload contains
 a full IP packet, from the IP Version field until the last byte of the IP
-Payload.
+Payload. In order to use HTTP Datagrams, the CONNECT-IP client will first
+decide whether or not to use HTTP Datagram Contexts and then register its
+context ID (or lack thereof) using the corresponding registration capsule, see
+{{HTTP-DGRAM}}.
 
 Since HTTP Datagrams require prior negotiation (for example, in HTTP/3 it is
 necessary to both send and receive the H3_DATAGRAM SETTINGS Parameter), clients
@@ -389,12 +392,15 @@ capsule without a preceding ATOMIC_START capsule.
 # Extensibility Considerations
 
 CONNECT-IP can be extended via multiple mechanisms to increase functionality.
-There are two main ways to extend CONNECT-IP: HTTP headers and Capsule Types.
-For example, an authentication extension could define an HTTP header that
-allows endpoints to send authentication credentials to their peer during the
-creation of the tunnel. Alternatively, one could specify an extension that
-defines a new Capsule Type which allows exchanging DNS configuration between
-endpoints.
+There are three main ways to extend CONNECT-IP: HTTP headers, Capsule Types,
+and HTTP Datagram Registration Extension Data. For example, an authentication
+extension could define an HTTP header that allows endpoints to send
+authentication credentials to their peer during the creation of the tunnel.
+Alternatively, one could specify an extension that defines a new Capsule Type
+which allows exchanging DNS configuration between endpoints. Additionally, an
+extension to CONNECT-IP can use multiple HTTP Datagram Contexts {{HTTP-DGRAM}}
+simultaneously to compress some IP packets by associating the compression
+context with an HTTP Datagram Context ID.
 
 
 # Security Considerations
