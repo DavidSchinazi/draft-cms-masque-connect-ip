@@ -5,12 +5,12 @@
 MASQUE                                                 A. Chernyakhovsky
 Internet-Draft                                                 D. McCall
 Intended status: Standards Track                             D. Schinazi
-Expires: 13 January 2022                                      Google LLC
-                                                            12 July 2021
+Expires: 5 March 2022                                         Google LLC
+                                                        1 September 2021
 
 
                        The CONNECT-IP HTTP Method
-                   draft-cms-masque-connect-ip-latest
+                      draft-cms-masque-connect-ip
 
 Abstract
 
@@ -45,7 +45,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 January 2022.
+   This Internet-Draft will expire on 5 March 2022.
 
 Copyright Notice
 
@@ -576,9 +576,9 @@ Table of Contents
    [REQS]     Chernyakhovsky, A., McCall, D., and D. Schinazi,
               "Requirements for a MASQUE Protocol to Proxy IP Traffic",
               Work in Progress, Internet-Draft, draft-ietf-masque-ip-
-              proxy-reqs-02, 30 April 2021,
+              proxy-reqs-03, 27 August 2021,
               <https://datatracker.ietf.org/doc/html/draft-ietf-masque-
-              ip-proxy-reqs-02>.
+              ip-proxy-reqs-03>.
 
 Appendix A.  Examples
 
