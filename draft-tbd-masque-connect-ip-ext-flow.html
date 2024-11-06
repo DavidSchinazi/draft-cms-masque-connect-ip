@@ -11,7 +11,8 @@
 extension defines a new Flow Forwarding Mode which supports optimization for
 individual IP flows forwarded to the targeted peer. 
        
-         IMPORTANT NOTE: This draft exists only to demonstrate the feasibility of
+         
+           IMPORTANT NOTE: This draft exists only to demonstrate the feasibility of
 defining CONNECT-IP Flow Forwarding Mode as an extension to CONNECT-IP. The
 overwhelming majority of the content in this draft was copied from
 draft-kuehlewind-masque-connect-ip-01. A list of changes from that design is
@@ -20,28 +21,26 @@ should go to the authors of that document. However, all blame for any errors
 in this draft should be attributed to its editor. The editor's intent is to
 step down as editor of this draft and have the authors of
 draft-kuehlewind-masque-connect-ip take on that role. 
+         
        
     " name="description">
-<meta content="xml2rfc 3.9.1" name="generator">
+<meta content="xml2rfc 3.24.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
-<meta content="draft-tbd-masque-connect-ip-ext-flow" name="ietf.draft">
+<meta content="draft-tbd-masque-connect-ip-ext-flow-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.9.1
-    Python 3.9.5
-    appdirs 1.4.4
-    ConfigArgParse 1.3
-    google-i18n-address 2.5.0
-    html5lib 1.1
+  xml2rfc 3.24.0
+    Python 3.12.7
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 2.11.3
-    kitchen 1.2.6
-    lxml 4.6.3
-    pycountry 20.7.3
-    pyflakes 2.3.0
-    PyYAML 5.4.1
-    requests 2.25.1
-    setuptools 52.0.0
-    six 1.15.0
+    Jinja2 3.1.4
+    lxml 5.3.0
+    platformdirs 4.3.6
+    pycountry 22.3.5
+    PyYAML 6.0.1
+    requests 2.32.3
+    setuptools 70.3.0
+    wcwidth 0.2.13
 -->
 <link href="draft-tbd-masque-connect-ip-ext-flow.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -167,29 +166,12 @@ draft-kuehlewind-masque-connect-ip take on that role.
   src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
-  font-family: 'Cabin Condensed';
+  font-family: 'Lora';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -210,7 +192,79 @@ draft-kuehlewind-masque-connect-ip take on that role.
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-html {
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
   --background-color: #fff;
   --text-color: #222;
   --title-color: #191919;
@@ -220,20 +274,9 @@ html {
   --pilcrow-weak: #ddd;
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
-}
-@media (prefers-color-scheme: dark) {
-html {
-  --background-color: #121212;
-  --text-color: #f0f0f0;
-  --title-color: #fff;
-  --link-color: #4da4f0;
-  --highlight-color: #282828;
-  --line-color: #444;
-  --pilcrow-weak: #444;
-  --pilcrow-strong: #666;
-  scrollbar-color: #777 #333;
-}
 }
 body {
   max-width: 600px;
@@ -250,22 +293,22 @@ body {
 }
 
 /* headings */
-#title, h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-#title {
+h1#title {
   font-size: 32px;
   line-height: 40px;
   clear: both;
 }
-#title, #rfcnum {
+h1#title, h1#rfcnum {
   margin: 1.5em 0 0.2em;
 }
-#rfcnum + #title {
+h1#rfcnum + h1#title {
   margin: 0.2em 0;
 }
 
@@ -282,10 +325,15 @@ h4, h5, h6 {
 .author {
   padding-bottom: 0.3em;
 }
-#abstract+p, #abstract+p code, #abstract+p samp, #abstract+p tt {
+#abstract+p {
   font-size: 18px;
   line-height: 24px;
 }
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
 p {
   padding: 0;
   margin: 0.5em 0;
@@ -322,6 +370,10 @@ div {
 svg {
   display: block;
 }
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
 .alignCenter.art-text {
   background-color: var(--highlight-color);
   border: 1px solid var(--line-color);
@@ -350,7 +402,7 @@ ol, ul {
   padding: 0;
   margin: 0 0 0.5em 2em;
 }
-ol ol, ul ul, ol ul, ul ol {
+:is(ol, ul) :is(ol, ul) {
   margin-left: 1em;
 }
 li {
@@ -365,31 +417,50 @@ ul.empty, .ulEmpty {
 ul.empty li, .ulEmpty li {
   margin-top: 0.5em;
 }
-ul.compact, .ulCompact,
-ol.compact, .olCompact {
-  line-height: 100%;
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 1;
   margin: 0 0 0 2em;
 }
 
 /* definition lists */
 dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+}
+dl.olPercent {
+  --indent: 5ch;
 }
 dl > dt {
   float: left;
-  margin-right: 1em;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl.dlNewline > dt {
+  float: none;
 }
 dl > dd {
   margin-bottom: .8em;
-  min-height: 1.3em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
 }
-dl.compact > dd, .dlCompact > dd {
-  margin-bottom: 0em;
+dl.olPercent > dt {
+  min-width: calc(var(--indent) - 2ch);
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
+  margin-top: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
+  margin-bottom: 0;
 }
 dl > dd > dl {
   margin-top: 0.5em;
-  margin-bottom: 0em;
+  margin-bottom: 0;
 }
-dd.break {
+:is(dd, span).break {
   display: none;
 }
 
@@ -397,11 +468,11 @@ dd.break {
 a, a[href].selfRef:hover {
   text-decoration: none;
 }
-a[href].selfRef {
-  color: var(--text-color);
-}
 a[href] {
   color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
 }
 a[href]:hover {
   text-decoration: underline;
@@ -409,14 +480,25 @@ a[href]:hover {
 a[href].selfRef:hover {
   background-color: var(--highlight-color);
 }
-a.xref {
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
   white-space: nowrap;
 }
 
 /* Figures */
 tt, code, pre {
   background-color: var(--highlight-color);
-  font: 14px/22px 'Oxygen Mono', monospace;
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
 }
 pre {
   border: 1px solid var(--line-color);
@@ -442,17 +524,35 @@ figcaption, caption {
   text-align: left;
 }
 @media screen {
-  pre {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
     display: inline-block;
     overflow-x: auto;
+  }
+  pre {
     max-width: 100%;
     width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
   }
   figure pre {
     display: block;
     width: calc(100% - 25px);
   }
-  pre + .pilcrow {
+  :is(pre, svg) + .pilcrow {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
@@ -466,9 +566,6 @@ aside, blockquote {
   font-style: italic;
 }
 blockquote {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
   margin: 1em 0;
 }
 cite {
@@ -504,17 +601,11 @@ th, td {
 th {
   background-color: var(--line-color);
 }
-tr:nth-child(2n) > td {
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
   background-color: var(--background-color);
 }
-tr:nth-child(2n+1) > td {
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
-}
-thead+tbody > tr:nth-child(2n) > td {
-  background-color: var(--highlight-color);
-}
-thead+tbody > tr:nth-child(2n+1) > td {
-  background-color: var(--background-color);
 }
 table caption {
   margin: 0;
@@ -554,10 +645,15 @@ hr {
 }
 .bcp14 {
   font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
 }
-
 .role {
   font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
 }
 
 /* info block */
@@ -565,17 +661,19 @@ hr {
   margin: 0;
   font-size: var(--small-font-size);
   line-height: 18px;
-  --identifier-width: 8em;
+  --identifier-width: 15ch;
 }
 #identifiers dt {
   width: var(--identifier-width);
-  margin: 0;
+  min-width: var(--identifier-width);
   clear: left;
   float: left;
   text-align: right;
+  margin-right: 1ch;
 }
 #identifiers dd {
-  margin: 0 0 0 calc(1em + var(--identifier-width));
+  margin: 0;
+  margin-left: calc(1em + var(--identifier-width)) !important;
   min-width: 5em;
 }
 #identifiers .authors .author {
@@ -605,6 +703,12 @@ hr {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
 }
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+  }
+}
 #toc nav ul {
   margin: 0 0.5em 0 0;
   padding: 0;
@@ -612,7 +716,7 @@ hr {
 }
 #toc nav li {
   line-height: 1.3em;
-  margin: 0.75em 0;
+  margin: 2px 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
 }
@@ -623,10 +727,16 @@ hr {
 .references dt {
   text-align: right;
   font-weight: bold;
-  min-width: 7em;
+  min-width: 10ch;
+  margin-right: 1.5ch;
+}
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
 }
 .references dd {
-  margin-left: 8em;
+  margin-left: 12ch !important;
   overflow: auto;
 }
 
@@ -639,36 +749,8 @@ hr {
 }
 
 /* index */
-.index ul {
-  margin: 0 0 0 1em;
-  padding: 0;
-  list-style: none;
-}
-.index ul ul {
-  margin: 0;
-}
-.index li {
-  margin: 0;
-  text-indent: -2em;
-  padding-left: 2em;
-  padding-bottom: 5px;
-}
-.indexIndex {
-  margin: 0.5em 0 1em;
-}
-.index a {
-  font-weight: 700;
-}
-/* make the index two-column on all but the smallest screens */
-@media (min-width: 500px) {
-  .index ul {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  .index ul ul {
-    column-count: 1;
-    column-gap: 0;
-  }
+#rfc\.index\.index + ul {
+  margin-left: 0;
 }
 
 /* authors */
@@ -727,7 +809,7 @@ hr.addr {
     z-index: 2;
     top: 0;
     right: 0;
-    padding: 0;
+    padding: 1px 0 0 0;
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
@@ -822,7 +904,7 @@ hr.addr {
     margin: 0 0 0 4px;
     font-size: var(--small-font-size);
   }
-  #toc ul p, #toc ul li {
+  #toc ul :is(p, li) {
     margin: 2px 0;
     line-height: 22px;
   }
@@ -851,16 +933,13 @@ hr.addr {
     border-top: none;
     padding-top: 0;
   }
-  figure, pre {
+  figure, pre, .vcard {
     page-break-inside: avoid;
-  }
-  figure {
-    overflow: scroll;
   }
   h1, h2, h3, h4, h5, h6 {
     page-break-after: avoid;
   }
-  h2+*, h3+*, h4+*, h5+*, h6+* {
+  :is(h2, h3, h4, h5, h6)+*, dd {
     page-break-before: avoid;
   }
   pre {
@@ -873,6 +952,9 @@ hr.addr {
   }
   td {
     border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
   }
 }
 
@@ -921,24 +1003,14 @@ a.toplink {
   margin: 8px 0.5em 0;
 }
 
-/* Fix the dl styling to match the RFC 7992 attributes */
-dl > dt,
-dl.dlParallel > dt {
-  float: left;
-  margin-right: 1em;
-}
-dl.dlNewline > dt {
-  float: none;
-}
-
 /* Provide styling for table cell text alignment */
-table .text-left, table .text-left {
+table .text-left {
   text-align: left;
 }
-table .text-center, table .text-center {
+table .text-center {
   text-align: center;
 }
-table .text-right, table .text-right {
+table .text-right {
   text-align: right;
 }
 
@@ -984,46 +1056,47 @@ address div.right {
   text-align: right;
 }
 
-/* Give the table caption label the same styling as the figcaption */
-
-@media print {
-  .toplink {
-    display: none;
-  }
-
-  /* avoid overwriting the top border line with the ToC header */
-  #toc {
-    padding-top: 1px;
-  }
-
-  /* Avoid page breaks inside dl and author address entries */
-  dd {
-    page-break-before: avoid;
-  }
-  .vcard {
-    page-break-inside: avoid;
-  }
-
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
 }
-/* Tweak the bcp14 keyword presentation */
-.bcp14 {
-  font-variant: small-caps;
-  font-weight: bold;
-  font-size: 0.9em;
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
 }
 </style>
 
 </head>
-<body>
+<body class="xml2rfc">
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CONNECT-IP Flow Forwarding</td>
-<td class="right">September 2021</td>
+<td class="right">November 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Determined</td>
-<td class="center">Expires 5 March 2022</td>
+<td class="center">Expires 10 May 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1033,19 +1106,19 @@ address div.right {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">MASQUE</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-tbd-masque-connect-ip-ext-flow</dd>
+<dd class="internet-draft">draft-tbd-masque-connect-ip-ext-flow-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-09-01" class="published">1 September 2021</time>
+<time datetime="2024-11-06" class="published">6 November 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-03-05">5 March 2022</time></dd>
+<dd class="expires"><time datetime="2025-05-10">10 May 2025</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">T.B. Determined</div>
+      <div class="author-name">T. B. Determined</div>
 <div class="org">MASQUE Enthusiasts LLC</div>
 </div>
 </dd>
@@ -1058,7 +1131,8 @@ address div.right {
 extension defines a new Flow Forwarding Mode which supports optimization for
 individual IP flows forwarded to the targeted peer.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-abstract-2.1">IMPORTANT NOTE: This draft exists only to demonstrate the feasibility of
+<li class="normal" id="section-abstract-2.1">
+          <p id="section-abstract-2.1.1">IMPORTANT NOTE: This draft exists only to demonstrate the feasibility of
 defining CONNECT-IP Flow Forwarding Mode as an extension to CONNECT-IP. The
 overwhelming majority of the content in this draft was copied from
 draft-kuehlewind-masque-connect-ip-01. A list of changes from that design is
@@ -1066,7 +1140,7 @@ available in an appendix to this document. All credit for flow forwarding
 should go to the authors of that document. However, all blame for any errors
 in this draft should be attributed to its editor. The editor's intent is to
 step down as editor of this draft and have the authors of
-draft-kuehlewind-masque-connect-ip take on that role.<a href="#section-abstract-2.1" class="pilcrow">¶</a>
+draft-kuehlewind-masque-connect-ip take on that role.<a href="#section-abstract-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
@@ -1100,7 +1174,7 @@ draft-kuehlewind-masque-connect-ip take on that role.<a href="#section-abstract-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 March 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1109,7 +1183,7 @@ draft-kuehlewind-masque-connect-ip take on that role.<a href="#section-abstract-
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2021 IETF Trust and the persons identified as the
+            Copyright (c) 2024 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1118,9 +1192,9 @@ draft-kuehlewind-masque-connect-ip take on that role.<a href="#section-abstract-
             publication of this document. Please review these documents
             carefully, as they describe your rights and restrictions with
             respect to this document. Code Components extracted from this
-            document must include Simplified BSD License text as described in
+            document must include Revised BSD License text as described in
             Section 4.e of the Trust Legal Provisions and are provided without
-            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="toc">
@@ -1128,135 +1202,135 @@ draft-kuehlewind-masque-connect-ip take on that role.<a href="#section-abstract-
         <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
 <a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
         </h2>
-<nav class="toc"><ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-motivation-of-ip-flow-model" class="xref">Motivation of IP flow model for flow forwarding</a></p>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-motivation-of-ip-flow-model" class="internal xref">Motivation of IP flow model for flow forwarding</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-definitions" class="xref">Definitions</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-definitions" class="internal xref">Definitions</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.1.2.3">
-                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="xref">1.3</a>.  <a href="#name-conventions" class="xref">Conventions</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-conventions" class="internal xref">Conventions</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-negotiating-flow-forwarding" class="xref">Negotiating Flow Forwarding Mode</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-negotiating-flow-forwarding" class="internal xref">Negotiating Flow Forwarding Mode</a></p>
 </li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-http-datagram-multiplexing-" class="xref">HTTP Datagram Multiplexing and Encoding</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-ip-payloads" class="xref">IP Payloads</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.3.2.1.2.1">
-                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="xref">3.1.1</a>.  <a href="#name-ip-payload-capsule" class="xref">IP Payload Capsule</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-http-datagram-multiplexing-" class="internal xref">HTTP Datagram Multiplexing and Encoding</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-ip-payloads" class="internal xref">IP Payloads</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-ip-payload-capsule" class="internal xref">IP Payload Capsule</a></p>
 </li>
-                  <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.3.2.1.2.2">
-                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="xref">3.1.2</a>.  <a href="#name-ip-payload-http-datagram-fo" class="xref">IP Payload HTTP Datagram Format</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.2">
+                    <p id="section-toc.1-1.3.2.1.2.2.1"><a href="#section-3.1.2" class="auto internal xref">3.1.2</a>.  <a href="#name-ip-payload-http-datagram-fo" class="internal xref">IP Payload HTTP Datagram Format</a></p>
 </li>
                 </ul>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-icmp" class="xref">ICMP</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="xref">3.2.1</a>.  <a href="#name-icmp-capsule" class="xref">ICMP Capsule</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-icmp" class="internal xref">ICMP</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-icmp-capsule" class="internal xref">ICMP Capsule</a></p>
 </li>
-                  <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.3.2.2.2.2">
-                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="xref">3.2.2</a>.  <a href="#name-icmp-http-datagram-format" class="xref">ICMP HTTP Datagram Format</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.2">
+                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="auto internal xref">3.2.2</a>.  <a href="#name-icmp-http-datagram-format" class="internal xref">ICMP HTTP Datagram Format</a></p>
 </li>
                 </ul>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-http-headers" class="xref">HTTP Headers</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-flow-forwarding-header-for-" class="xref">Flow-Forwarding header for CONNECT-IP</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-http-headers" class="internal xref">HTTP Headers</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-flow-forwarding-header-for-" class="internal xref">Flow-Forwarding header for CONNECT-IP</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-ip-protocol-header-for-conn" class="xref">IP-Protocol Header for CONNECT-IP</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-ip-protocol-header-for-conn" class="internal xref">IP-Protocol Header for CONNECT-IP</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.4.2.3">
-                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-ip-version-header-for-conne" class="xref">IP-Version header for CONNECT-IP</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-ip-version-header-for-conne" class="internal xref">IP-Version header for CONNECT-IP</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.4.2.4">
-                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-ip-address-header-for-conne" class="xref">IP-Address header for CONNECT-IP</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-ip-address-header-for-conne" class="internal xref">IP-Address header for CONNECT-IP</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.4.2.5">
-                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="xref">4.5</a>.  <a href="#name-ip-address-handling-header-" class="xref">IP-Address-Handling Header for CONNECT-IP</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-ip-address-handling-header-" class="internal xref">IP-Address-Handling Header for CONNECT-IP</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.4.2.6">
-                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="xref">4.6</a>.  <a href="#name-conn-id-header-for-connect-" class="xref">Conn-ID Header for CONNECT-IP</a></p>
-</li>
-            </ul>
-</li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-masque-server-behavior" class="xref">MASQUE server behavior</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-error-handling" class="xref">Error handling</a></p>
-</li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-ip-address-selection" class="xref">IP address selection</a></p>
-</li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.5.2.3">
-                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="xref">5.3</a>.  <a href="#name-constructing-the-ip-header" class="xref">Constructing the IP header</a></p>
-</li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.5.2.4">
-                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="xref">5.4</a>.  <a href="#name-receiving-an-ip-packet" class="xref">Receiving an IP packet</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="auto internal xref">4.6</a>.  <a href="#name-conn-id-header-for-connect-" class="internal xref">Conn-ID Header for CONNECT-IP</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-additional-signalling" class="xref">Additional signalling</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-ecn" class="xref">ECN</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-masque-server-behavior" class="internal xref">MASQUE server behavior</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-error-handling" class="internal xref">Error handling</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-icmp-handling" class="xref">ICMP handling</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-ip-address-selection" class="internal xref">IP address selection</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-mtu-considerations" class="xref">MTU considerations</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-constructing-the-ip-header" class="internal xref">Constructing the IP header</a></p>
 </li>
-            </ul>
-</li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-examples" class="xref">Examples</a></p>
-</li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security considerations</a></p>
-</li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-iana-considerations" class="xref">IANA considerations</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-http-header" class="xref">HTTP Header</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
+                <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-receiving-an-ip-packet" class="internal xref">Receiving an IP packet</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-references" class="xref">References</a></p>
-<ul class="compact toc ulEmpty ulBare">
-<li class="compact toc ulEmpty ulBare" id="section-toc.1-1.10.2.1">
-                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="xref">10.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-additional-signalling" class="internal xref">Additional signalling</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-ecn" class="internal xref">ECN</a></p>
 </li>
-              <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.10.2.2">
-                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="xref">10.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-icmp-handling" class="internal xref">ICMP handling</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-mtu-considerations" class="internal xref">MTU considerations</a></p>
 </li>
             </ul>
 </li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="xref"></a><a href="#name-changes-from-draft-kuehlewi" class="xref">Changes from draft-kuehlewind-masque-connect-ip-01</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
 </li>
-          <li class="compact toc ulEmpty ulBare" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a></p>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-http-header" class="internal xref">HTTP Header</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-changes-from-draft-kuehlewi" class="internal xref">Changes from draft-kuehlewind-masque-connect-ip-01</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-address" class="internal xref">Author's Address</a></p>
 </li>
         </ul>
 </nav>
@@ -1268,7 +1342,7 @@ draft-kuehlewind-masque-connect-ip take on that role.<a href="#section-abstract-
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">This document describes an extension to the CONNECT-IP HTTP method
-<span>[<a href="#CONNECT-IP" class="xref">CONNECT-IP</a>]</span>. This extension defines a new Flow
+<span>[<a href="#CONNECT-IP" class="cite xref">CONNECT-IP</a>]</span>. This extension defines a new Flow
 Forwarding Mode which supports optimization for individual IP flows forwarded
 to the targeted peer.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">In flow forwarding mode the CONNECT-IP method establishes an outgoing IP flow,
@@ -1294,7 +1368,7 @@ source and destination IP addresses and ports as well as the upper layer
 protocol identifier) that is needed to construct the IP header or to inform the
 client about information from received IP packets can be signalled as part of
 the CONNECT-IP request or using HTTP/3 Datagram
-<span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span> later.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<span>[<a href="#HTTP-DGRAM" class="cite xref">HTTP-DGRAM</a>]</span> later.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">In flow forwarding mode, usually one upper-layer end-to-end connection is
 associated to one CONNECT-IP forwarding association. While it would be possible
 for a client to use the same forwarding association for multiple end-to-end
@@ -1305,43 +1379,51 @@ connection-oriented transmissions. In order to enable multiple flow forwarding
 associations to the same server, the flow forwarding mode supports a way to
 specify some additional upper layer protocol selectors, e.g. TCP source and
 destination port, to enable multiple CONNECT-IP request for the same three
-tuple, see CONN-ID header (<a href="#conn-id" class="xref">Section 4.6</a>).<a href="#section-1-5" class="pilcrow">¶</a></p>
+tuple, see CONN-ID header (<a href="#conn-id" class="auto internal xref">Section 4.6</a>).<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">The default model for address handling in this specification is that the proxy
 (MASQUE Server) will have a pool of one or more IP addresses that it can lend
 to the MASQUE client and routable over its external interface. Other potential
 use cases and address handling are possible, potentially requiring further
 extensions.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">This proposal is based on the analysis provided in
-<span>[<a href="#I-D.westerlund-masque-transport-issues" class="xref">I-D.westerlund-masque-transport-issues</a>]</span> indicating that most
+<span>[<a href="#I-D.westerlund-masque-transport-issues" class="cite xref">I-D.westerlund-masque-transport-issues</a>]</span> indicating that most
 information in the IP header is either IP flow related or can or even
 should be provided by the proxy as the IP communication endpoint
 without the need for input from the client.  The most crucial
 information identified that requires client interaction is ECN
-<span>[<a href="#RFC3168" class="xref">RFC3168</a>]</span> and ICMP <span>[<a href="#RFC0792" class="xref">RFC0792</a>]</span> <span>[<a href="#RFC4443" class="xref">RFC4443</a>]</span> handling.<a href="#section-1-7" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span> and ICMP <span>[<a href="#RFC0792" class="cite xref">RFC0792</a>]</span> <span>[<a href="#RFC4443" class="cite xref">RFC4443</a>]</span> handling.<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">This document defines the following IP header field treatment.<a href="#section-1-8" class="pilcrow">¶</a></p>
 <p id="section-1-9">Required to be determined in CONNECT-IP request and response:<a href="#section-1-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-10.1">IP version<a href="#section-1-10.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1-10.1">
+          <p id="section-1-10.1.1">IP version<a href="#section-1-10.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-10.2">IP Source Address<a href="#section-1-10.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-10.2">
+          <p id="section-1-10.2.1">IP Source Address<a href="#section-1-10.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-10.3">IP Destination Address (target address)<a href="#section-1-10.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-10.3">
+          <p id="section-1-10.3.1">IP Destination Address (target address)<a href="#section-1-10.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-10.4">Upper Layer Protocol (IPv4 Protocol field / IPv6 Next Header field)<a href="#section-1-10.4" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-10.4">
+          <p id="section-1-10.4.1">Upper Layer Protocol (IPv4 Protocol field / IPv6 Next Header field)<a href="#section-1-10.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-11">Can be chosen by Proxy on transmission:<a href="#section-1-11" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-12.1">IPv6 Flow label (per CONNECT-IP flow mode request)<a href="#section-1-12.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1-12.1">
+          <p id="section-1-12.1.1">IPv6 Flow label (per CONNECT-IP flow mode request)<a href="#section-1-12.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-12.2">IPv4 Time to live / IPv6 Hop Limit (proxy configured)<a href="#section-1-12.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-12.2">
+          <p id="section-1-12.2.1">IPv4 Time to live / IPv6 Hop Limit (proxy configured)<a href="#section-1-12.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-1-12.3">Diffserv Codepoint, default is set to 0 (Best Effort)<a href="#section-1-12.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-1-12.3">
+          <p id="section-1-12.3.1">Diffserv Codepoint, default is set to 0 (Best Effort)<a href="#section-1-12.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-13">May optionally be provided on a per packet basis<a href="#section-1-13" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-14.1">Explicit Congestion Notification in both directions.<a href="#section-1-14.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1-14.1">
+          <p id="section-1-14.1.1">Explicit Congestion Notification in both directions.<a href="#section-1-14.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-15">The consequence of this is certain limitations that future extension can
@@ -1350,10 +1432,10 @@ client will not get any information on the actual value of TTL/Hop Count, DSCP,
 or flow label when received by the proxy. Instead these field are set and
 consumed by the proxy only.<a href="#section-1-15" class="pilcrow">¶</a></p>
 <p id="section-1-16">Signalling of other dedicated values may be desired in certain deployments, e.g
-for DCSP <span>[<a href="#RFC2474" class="xref">RFC2474</a>]</span>. However, DSCP is in any case a challenge due to local
+for DCSP <span>[<a href="#RFC2474" class="cite xref">RFC2474</a>]</span>. However, DSCP is in any case a challenge due to local
 domain dependency of the used DSCP values and the forwarding behavior and
 traffic treatment they represent. Future use cases for DSCP, as well as new
-IPv6 extension headers or destination header options <span>[<a href="#RFC8200" class="xref">RFC8200</a>]</span> may require
+IPv6 extension headers or destination header options <span>[<a href="#RFC8200" class="cite xref">RFC8200</a>]</span> may require
 additional signaling. Therefore, it is important that the signaling is
 extensible.<a href="#section-1-16" class="pilcrow">¶</a></p>
 <div id="motivation-of-ip-flow-model-for-flow-forwarding">
@@ -1363,25 +1445,29 @@ extensible.<a href="#section-1-16" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-1.1-1">The chosen IP flow model is selected due to several advantages:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1-2.1">Minimized per packet overhead: The per packet overhead is reduced
+<li class="normal" id="section-1.1-2.1">
+            <p id="section-1.1-2.1.1">Minimized per packet overhead: The per packet overhead is reduced
   to basic framing of the IP payload for each IP packet and flow
   identifiers.  This enables a larger effective Maximum Transmission
-  Unit (MTU) than regular CONNECT-IP.<a href="#section-1.1-2.1" class="pilcrow">¶</a>
+  Unit (MTU) than regular CONNECT-IP.<a href="#section-1.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.1-2.2">Shared functionality with CONNECT-UDP: The UDP flow proxying
+          <li class="normal" id="section-1.1-2.2">
+            <p id="section-1.1-2.2.1">Shared functionality with CONNECT-UDP: The UDP flow proxying
   functionality of CONNECT-UDP will need to establish, store and
   process the same IP header related fields and state.  So this can
   be accomplished by simply removing the UDP specific processing of
-  packets.<a href="#section-1.1-2.2" class="pilcrow">¶</a>
+  packets.<a href="#section-1.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.1-2.3">CONNECT-IP can establish a new IP flow in 0-RTT: No network
-  related latencies in establishing new flow.<a href="#section-1.1-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.1-2.3">
+            <p id="section-1.1-2.3.1">CONNECT-IP can establish a new IP flow in 0-RTT: No network
+  related latencies in establishing new flow.<a href="#section-1.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-1.1-3">Disadvantages of this model are the following:<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.1-4.1">Client to server focused solution: Accepting non-solicited peer-
-  initiated traffic is not supported.<a href="#section-1.1-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.1-4.1">
+            <p id="section-1.1-4.1.1">Client to server focused solution: Accepting non-solicited peer-
+  initiated traffic is not supported.<a href="#section-1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1392,32 +1478,38 @@ extensible.<a href="#section-1-16" class="pilcrow">¶</a></p>
 <a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-definitions" class="section-name selfRef">Definitions</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="section-1.2-1.1">Proxy: This document uses proxy as synonym for the MASQUE Server
-  or an HTTP proxy, depending on context.<a href="#section-1.2-1.1" class="pilcrow">¶</a>
+<li class="normal" id="section-1.2-1.1">
+            <p id="section-1.2-1.1.1">Proxy: This document uses proxy as synonym for the MASQUE Server
+  or an HTTP proxy, depending on context.<a href="#section-1.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.2-1.2">Client: The endpoint initiating a MASQUE tunnel and IP relaying
-  with the proxy.<a href="#section-1.2-1.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-1.2">
+            <p id="section-1.2-1.2.1">Client: The endpoint initiating a MASQUE tunnel and IP relaying
+  with the proxy.<a href="#section-1.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.2-1.3">Target host: A remote endpoint the client wishes to establish bi-
-  directional communication with via tunnelling over the proxy.<a href="#section-1.2-1.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-1.3">
+            <p id="section-1.2-1.3.1">Target host: A remote endpoint the client wishes to establish bi-
+  directional communication with via tunnelling over the proxy.<a href="#section-1.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.2-1.4">IP proxying: A proxy forwarding IP payloads to a target for an IP
+          <li class="normal" id="section-1.2-1.4">
+            <p id="section-1.2-1.4.1">IP proxying: A proxy forwarding IP payloads to a target for an IP
   flow.  Data is decapsulate at the proxy and amended by a IP header
   before forwarding to the target.  Packet boundaries need to be
-  preserved or signalled between the client and proxy.<a href="#section-1.2-1.4" class="pilcrow">¶</a>
+  preserved or signalled between the client and proxy.<a href="#section-1.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.2-1.5">IP flow: A flow of IP packets between two hosts as identified by
+          <li class="normal" id="section-1.2-1.5">
+            <p id="section-1.2-1.5.1">IP flow: A flow of IP packets between two hosts as identified by
   their IP addresses, and where all the packets share some
   properties.  These properties include source/destination address,
   protocol / next header field, flow label (IPv6 only), and DSCP per
-  direction.<a href="#section-1.2-1.5" class="pilcrow">¶</a>
+  direction.<a href="#section-1.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-1.2-1.6">Address = IP address<a href="#section-1.2-1.6" class="pilcrow">¶</a>
+          <li class="normal" id="section-1.2-1.6">
+            <p id="section-1.2-1.6.1">Address = IP address<a href="#section-1.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <span id="name-the-nodes-and-their-address"></span><div id="fig-nodes">
 <figure id="figure-1">
-          <div class="artwork art-text alignLeft" id="section-1.2-2.1">
+          <div class="alignLeft art-text artwork" id="section-1.2-2.1">
 <pre>
                      Target Address --+
                                        \
@@ -1436,7 +1528,7 @@ extensible.<a href="#section-1-16" class="pilcrow">¶</a></p>
 <a href="#name-the-nodes-and-their-address" class="selfRef">The nodes and their addresses</a>
           </figcaption></figure>
 </div>
-<p id="section-1.2-3"><a href="#fig-nodes" class="xref">Figure 1</a> provides an overview figure of the involved nodes, i.e. client,
+<p id="section-1.2-3"><a href="#fig-nodes" class="auto internal xref">Figure 1</a> provides an overview figure of the involved nodes, i.e. client,
 proxy, and target host. There are also two network paths. Path #1 is the client
 to proxy path, where IP proxying is provided over an HTTP/3 session, usually
 over QUIC, to tunnel IP flow(s). Path #2 is the path between the proxy and the
@@ -1455,7 +1547,7 @@ and the target's address as destination address.<a href="#section-1.2-4" class="
         </h3>
 <p id="section-1.3-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
-document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span>
+document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span>
 when, and only when, they appear in all capitals, as shown here.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1468,15 +1560,15 @@ when, and only when, they appear in all capitals, as shown here.<a href="#sectio
       </h2>
 <p id="section-2-1">To request flow forwarding, the client sends a CONNECT-IP request to the
 forwarding proxy indicating the target host and port in the Flow-Forwarding
-header field (<a href="#ffd" class="xref">Section 4.1</a>). The host portion is either an IP literal encapsulated
+header field (<a href="#ffd" class="auto internal xref">Section 4.1</a>). The host portion is either an IP literal encapsulated
 within square brackets, an IPv4 address in dotted-decimal form, or a registered
 name. Further the CONNECT-IP request MUST contain the IP-Protocol header
-(<a href="#ip-proto" class="xref">Section 4.2</a>) and MAY contain the IP-Address-Handling (<a href="#ip-addr-handling" class="xref">Section 4.5</a>)
-or the Conn-ID (<a href="#conn-id" class="xref">Section 4.6</a>) header.<a href="#section-2-1" class="pilcrow">¶</a></p>
+(<a href="#ip-proto" class="auto internal xref">Section 4.2</a>) and MAY contain the IP-Address-Handling (<a href="#ip-addr-handling" class="auto internal xref">Section 4.5</a>)
+or the Conn-ID (<a href="#conn-id" class="auto internal xref">Section 4.6</a>) header.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">If the server accepts the request, it responds with a 2xx (Successful) response
-that echoes the Flow-Forwarding header field (<a href="#ffd" class="xref">Section 4.1</a>). The client can
-optimistically register its IP payload context ID (<a href="#payload-capsule" class="xref">Section 3.1.1</a>) and
-start sending IP payloads (<a href="#payload-format" class="xref">Section 3.1.2</a>) before it receives the server
+that echoes the Flow-Forwarding header field (<a href="#ffd" class="auto internal xref">Section 4.1</a>). The client can
+optimistically register its IP payload context ID (<a href="#payload-capsule" class="auto internal xref">Section 3.1.1</a>) and
+start sending IP payloads (<a href="#payload-format" class="auto internal xref">Section 3.1.2</a>) before it receives the server
 response. If the server rejects the request or does not support flow forwarding
 mode, those datagrams will be dropped.<a href="#section-2-2" class="pilcrow">¶</a></p>
 </section>
@@ -1488,17 +1580,17 @@ mode, those datagrams will be dropped.<a href="#section-2-2" class="pilcrow">¶<
       </h2>
 <p id="section-3-1">Flow forwarding mode requires multiplexing multiple types of HTTP Datagrams
 over a single CONNECT-IP request: IP payloads and ICMP messages. To allow this,
-clients register HTTP Datagram Context IDs using capsules <span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+clients register HTTP Datagram Context IDs using capsules <span>[<a href="#HTTP-DGRAM" class="cite xref">HTTP-DGRAM</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="ip-payloads">
 <section id="section-3.1">
         <h3 id="name-ip-payloads">
 <a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-ip-payloads" class="section-name selfRef">IP Payloads</a>
         </h3>
 <p id="section-3.1-1">In order to exchange IP payloads, the client starts by using its context ID
-allocation service <span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span> to allocate a context ID. It then
+allocation service <span>[<a href="#HTTP-DGRAM" class="cite xref">HTTP-DGRAM</a>]</span> to allocate a context ID. It then
 communicates that context ID to the server using a
-REGISTER_DATAGRAM_CONTEXT_IP_PAYLOAD capsule (<a href="#payload-capsule" class="xref">Section 3.1.1</a>). Once that
-is done, both endpoints can exchange IP Payloads (<a href="#payload-format" class="xref">Section 3.1.2</a>).<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+REGISTER_DATAGRAM_CONTEXT_IP_PAYLOAD capsule (<a href="#payload-capsule" class="auto internal xref">Section 3.1.1</a>). Once that
+is done, both endpoints can exchange IP Payloads (<a href="#payload-format" class="auto internal xref">Section 3.1.2</a>).<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <div id="payload-capsule">
 <section id="section-3.1.1">
           <h4 id="name-ip-payload-capsule">
@@ -1510,7 +1602,7 @@ datagrams associated with a given context ID. Its Capsule Data field consists
 of:<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
 <span id="name-register_datagram_context_i"></span><div id="payload-capsule-format">
 <figure id="figure-2">
-            <div class="artwork art-text alignLeft" id="section-3.1.1-2.1">
+            <div class="alignLeft art-text artwork" id="section-3.1.1-2.1">
 <pre>
 REGISTER_DATAGRAM_CONTEXT_IP_PAYLOAD Capsule {
   Context ID (i),
@@ -1522,8 +1614,7 @@ REGISTER_DATAGRAM_CONTEXT_IP_PAYLOAD Capsule {
             </figcaption></figure>
 </div>
 <span class="break"></span><dl class="dlParallel" id="section-3.1.1-3">
-            <dt id="section-3.1.1-3.1">
-Context ID:  </dt>
+            <dt id="section-3.1.1-3.1">Context ID:</dt>
             <dd style="margin-left: 1.5em" id="section-3.1.1-3.2">
               <p id="section-3.1.1-3.2.1">The context ID to register.<a href="#section-3.1.1-3.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1549,10 +1640,10 @@ for IPv6 as the payload following the IPv6 header and any extension header.<a hr
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-icmp" class="section-name selfRef">ICMP</a>
         </h3>
 <p id="section-3.2-1">In order to exchange ICMP messages, the client starts by using its context ID
-allocation service <span>[<a href="#HTTP-DGRAM" class="xref">HTTP-DGRAM</a>]</span> to allocate a context ID. It then
+allocation service <span>[<a href="#HTTP-DGRAM" class="cite xref">HTTP-DGRAM</a>]</span> to allocate a context ID. It then
 communicates that context ID to the server using a
-REGISTER_DATAGRAM_CONTEXT_ICMP capsule (<a href="#icmp-capsule" class="xref">Section 3.2.1</a>). Once that is done,
-both endpoints can exchange ICMP messages (<a href="#icmp-format" class="xref">Section 3.2.2</a>).<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+REGISTER_DATAGRAM_CONTEXT_ICMP capsule (<a href="#icmp-capsule" class="auto internal xref">Section 3.2.1</a>). Once that is done,
+both endpoints can exchange ICMP messages (<a href="#icmp-format" class="auto internal xref">Section 3.2.2</a>).<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <div id="icmp-capsule">
 <section id="section-3.2.1">
           <h4 id="name-icmp-capsule">
@@ -1563,7 +1654,7 @@ to inform its peer of the encoding and semantics of ICMP datagrams associated
 with a given context ID. Its Capsule Data field consists of:<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
 <span id="name-register_datagram_context_ic"></span><div id="payload-icmp-format">
 <figure id="figure-3">
-            <div class="artwork art-text alignLeft" id="section-3.2.1-2.1">
+            <div class="alignLeft art-text artwork" id="section-3.2.1-2.1">
 <pre>
 REGISTER_DATAGRAM_CONTEXT_ICMP Capsule {
   Context ID (i),
@@ -1575,8 +1666,7 @@ REGISTER_DATAGRAM_CONTEXT_ICMP Capsule {
             </figcaption></figure>
 </div>
 <span class="break"></span><dl class="dlParallel" id="section-3.2.1-3">
-            <dt id="section-3.2.1-3.1">
-Context ID:  </dt>
+            <dt id="section-3.2.1-3.1">Context ID:</dt>
             <dd style="margin-left: 1.5em" id="section-3.2.1-3.2">
               <p id="section-3.2.1-3.2.1">The context ID to register.<a href="#section-3.2.1-3.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1591,7 +1681,7 @@ Context ID:  </dt>
           </h4>
 <p id="section-3.2.2-1">HTTP Datagrams registered to carry ICMP messages contain a summary message of
 the ICMP message received and validated for the respective IP flow. The message
-format carries the ICMP packet for ICMPv4 <span>[<a href="#RFC0792" class="xref">RFC0792</a>]</span> or ICMPv6 <span>[<a href="#RFC4443" class="xref">RFC4443</a>]</span>.
+format carries the ICMP packet for ICMPv4 <span>[<a href="#RFC0792" class="cite xref">RFC0792</a>]</span> or ICMPv6 <span>[<a href="#RFC4443" class="cite xref">RFC4443</a>]</span>.
 This format is chosen for forward compatibility. From an implementation
 perspective the client don't need to verify the checksum or validate the header
 fields because that is done by the server. However, some type codes, like
@@ -1615,10 +1705,10 @@ response or both.<a href="#section-4-1" class="pilcrow">¶</a></p>
         <h3 id="name-flow-forwarding-header-for-">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-flow-forwarding-header-for-" class="section-name selfRef">Flow-Forwarding header for CONNECT-IP</a>
         </h3>
-<p id="section-4.1-1">Flow-Forwarding is an Item Structured Header <span>[<a href="#RFC8941" class="xref">RFC8941</a>]</span>. Its value MUST be a
+<p id="section-4.1-1">Flow-Forwarding is an Item Structured Header <span>[<a href="#RFC8941" class="cite xref">RFC8941</a>]</span>. Its value MUST be a
 String containing either an IPv6 literal encapsulated within square brackets,
 an IPv4 address in dotted-decimal form, or a registered name.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-4.1-2">
+<div class="alignLeft art-text artwork" id="section-4.1-2">
 <pre>
 Flow-Forwarding = sf-string
 </pre><a href="#section-4.1-2" class="pilcrow">¶</a>
@@ -1634,9 +1724,9 @@ Flow-Forwarding = sf-string
 field in the IPv4 header or "Next header" field in the IPv6 header. As the IP
 payload is otherwise mostly opaque to the proxy, this information has to be
 provided by the client for each CONNECT-IP request for flow forwarding.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2-2">IP-Protocol is a Item Structured Header <span>[<a href="#RFC8941" class="xref">RFC8941</a>]</span>. Its value MUST be an
+<p id="section-4.2-2">IP-Protocol is a Item Structured Header <span>[<a href="#RFC8941" class="cite xref">RFC8941</a>]</span>. Its value MUST be an
 Integer. Its ABNF is:<a href="#section-4.2-2" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-4.2-3">
+<div class="alignLeft art-text artwork" id="section-4.2-3">
 <pre>
 IP-Protocol = sf-integer
 </pre><a href="#section-4.2-3" class="pilcrow">¶</a>
@@ -1648,12 +1738,12 @@ IP-Protocol = sf-integer
         <h3 id="name-ip-version-header-for-conne">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-ip-version-header-for-conne" class="section-name selfRef">IP-Version header for CONNECT-IP</a>
         </h3>
-<p id="section-4.3-1">IP-Version is a Item Structured Header <span>[<a href="#RFC8941" class="xref">RFC8941</a>]</span>. Its value MUST be an
+<p id="section-4.3-1">IP-Version is a Item Structured Header <span>[<a href="#RFC8941" class="cite xref">RFC8941</a>]</span>. Its value MUST be an
 Integer and either 4 or 6. This information is used by the proxy to check if
 the requested IP version is supported by the network that the proxy is
 connected to, as well as to check the destination or source IP address for
 compliance.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-4.3-2">
+<div class="alignLeft art-text artwork" id="section-4.3-2">
 <pre>
 IP-Version = sf-integer
 </pre><a href="#section-4.3-2" class="pilcrow">¶</a>
@@ -1665,7 +1755,7 @@ IP-Version = sf-integer
         <h3 id="name-ip-address-header-for-conne">
 <a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-ip-address-header-for-conne" class="section-name selfRef">IP-Address header for CONNECT-IP</a>
         </h3>
-<p id="section-4.4-1">IP-Address is an Item Structured Header <span>[<a href="#RFC8941" class="xref">RFC8941</a>]</span>. Its value MUST be an
+<p id="section-4.4-1">IP-Address is an Item Structured Header <span>[<a href="#RFC8941" class="cite xref">RFC8941</a>]</span>. Its value MUST be an
 String contain an IP address or IP address range of the same IP version as
 indicated in the IP-Version header. The address must be specified in the format
 specified by TBD.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
@@ -1681,7 +1771,7 @@ CONNECT-IP request has to be sent.<a href="#section-4.4-3" class="pilcrow">¶</a
 <p id="section-4.4-4">The header is also used as a response header from the proxy to the client to
 indicate the actual IP address or IP address range that will be used by the
 proxy.<a href="#section-4.4-4" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-4.4-5">
+<div class="alignLeft art-text artwork" id="section-4.4-5">
 <pre>
 IP-Address = sf-string
 </pre><a href="#section-4.4-5" class="pilcrow">¶</a>
@@ -1696,16 +1786,16 @@ IP-Address = sf-string
 <p id="section-4.5-1">This header can be used to request the use of a stable address for multiple
 active flow forwarding associations. The first association will be established
 with an IP selected by the proxy unless also the IP-Address header
-(<a href="#ip-addr" class="xref">Section 4.4</a>) is provided and accepted by proxy. However, additional forwarding
+(<a href="#ip-addr" class="auto internal xref">Section 4.4</a>) is provided and accepted by proxy. However, additional forwarding
 association can be requested by the client to use the same IP address as a
 previous request by specifying the stream ID as value in this header. This
 header can also be used to ensure that a "new", not yet for this client used
 address is selected by setting a value that is larger than the maximum stream
 ID.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
-<p id="section-4.5-2">IP-Address-Handling is a Item Structured Header <span>[<a href="#RFC8941" class="xref">RFC8941</a>]</span>. Its value MUST be
+<p id="section-4.5-2">IP-Address-Handling is a Item Structured Header <span>[<a href="#RFC8941" class="cite xref">RFC8941</a>]</span>. Its value MUST be
 an Integer and indicates the stream ID of the corresponding active flow
 forwarding association. Its ABNF is:<a href="#section-4.5-2" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-4.5-3">
+<div class="alignLeft art-text artwork" id="section-4.5-3">
 <pre>
 IP-Address-Handling = sf-integer
 </pre><a href="#section-4.5-3" class="pilcrow">¶</a>
@@ -1723,21 +1813,23 @@ length of a field in the IP payload that can be used by the proxy as a
 connection identifier in addition to the IP address and protocol tuple when
 multiple connections are proxied to the same target server for incoming traffic
 on the service address.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
-<p id="section-4.6-2">Conn-ID is a Item Structured Header <span>[<a href="#RFC8941" class="xref">RFC8941</a>]</span>. Its value MUST be a Byte
+<p id="section-4.6-2">Conn-ID is a Item Structured Header <span>[<a href="#RFC8941" class="cite xref">RFC8941</a>]</span>. Its value MUST be a Byte
 Sequence. Its ABNF is:<a href="#section-4.6-2" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-4.6-3">
+<div class="alignLeft art-text artwork" id="section-4.6-3">
 <pre>
  Conn-ID = sf-binary
 </pre><a href="#section-4.6-3" class="pilcrow">¶</a>
 </div>
 <p id="section-4.6-4">The following parameters are defined:<a href="#section-4.6-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.6-5.1">A parameter whose name is "offset", and whose value is an Integer indicating
+<li class="normal" id="section-4.6-5.1">
+            <p id="section-4.6-5.1.1">A parameter whose name is "offset", and whose value is an Integer indicating
 the offset of the identifier field starting from the beginning of a datagram
-or HTTP frame on the forwarding stream.<a href="#section-4.6-5.1" class="pilcrow">¶</a>
+or HTTP frame on the forwarding stream.<a href="#section-4.6-5.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-4.6-5.2">A parameter whose name is "length", and whose value is an Integer indicating
-the length of the identifier field starting from the offset.<a href="#section-4.6-5.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-4.6-5.2">
+            <p id="section-4.6-5.2.1">A parameter whose name is "length", and whose value is an Integer indicating
+the length of the identifier field starting from the offset.<a href="#section-4.6-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-4.6-6">Both parameters MUST be present and the header MUST be ignored if these
@@ -1765,18 +1857,18 @@ stream IDs and the IP level selectors and Conn-ID information. Using this
 database and the pool of available addresses and the requests
 IP-Address-Handling, Conn-ID, IP-Version, IP-Address headers (if included) to
 select a source IP address. This selection for flow forwarding mode is further
-discussed below in <a href="#addr-selection" class="xref">Section 5.2</a>.<a href="#section-5-3" class="pilcrow">¶</a></p>
+discussed below in <a href="#addr-selection" class="auto internal xref">Section 5.2</a>.<a href="#section-5-3" class="pilcrow">¶</a></p>
 <p id="section-5-4">Once the mapping is successfully established, the proxy sends a HEADERS frame
 containing a 2xx series status code to the client. The response MUST contain an
 IP-Address header indicating the outgoing source IP address or IP address range
 selected by the proxy.<a href="#section-5-4" class="pilcrow">¶</a></p>
 <p id="section-5-5">All Datagram capsules received on that stream as well as all HTTP/3 datagrams
 belonging to this CONNECT-IP association are processed for forwarding to the
-target server. Datagrams are processed as specified in <a href="#construct" class="xref">Section 5.3</a> to produce
+target server. Datagrams are processed as specified in <a href="#construct" class="auto internal xref">Section 5.3</a> to produce
 IP packets that can be forwarded.<a href="#section-5-5" class="pilcrow">¶</a></p>
 <p id="section-5-6">IP packets received from the target server are mapped to an active forwarding
 connection and are respectively forwarded in an HTTP datagram to the client
-(see <a href="#recv" class="xref">Section 5.4</a>).<a href="#section-5-6" class="pilcrow">¶</a></p>
+(see <a href="#recv" class="auto internal xref">Section 5.4</a>).<a href="#section-5-6" class="pilcrow">¶</a></p>
 <div id="error-handling">
 <section id="section-5.1">
         <h3 id="name-error-handling">
@@ -1797,7 +1889,7 @@ pool of IP addresses that are routed to the MASQUE server.<a href="#section-5.2-
 identifier based on Conn-ID header is provided by the client, the proxy uses
 the source/destination address and protocol ID 3-tuple in order to map an
 incoming IP packet to an active forwarding connection. The proxy MUST also
-consider if IP-Address-Handling header (<a href="#ip-addr-handling" class="xref">Section 4.5</a>) is included and
+consider if IP-Address-Handling header (<a href="#ip-addr-handling" class="auto internal xref">Section 4.5</a>) is included and
 its value. If the IP-Address-Handling header is not included and the there has
 been prior request the proxy SHOULD give the client the same source Address as
 the first flow forwarding request. Given these constraints the MASQUE proxy
@@ -1837,7 +1929,7 @@ that does not fit into one IP packet MUST be dropped. A dropping indication
 should be provided to the client. Further the proxy should provide MTU
 information.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3">The ECN field is by default set to non-ECN capable transport (non- ECT).
-Further ECN handling is described in <a href="#ecn" class="xref">Section 6.1</a>.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+Further ECN handling is described in <a href="#ecn" class="auto internal xref">Section 6.1</a>.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="recv">
@@ -1874,7 +1966,7 @@ notification is received.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <p id="section-6.1-2">The probing and verification in the upper layer protocol of end-to-end ECN
 requires per packet control over what value is set on IP packet transmission as
 well as which of all values are received by the proxy. The QUIC specification
-is providing one such example in Section 13.4 of <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span>. Thus in flow
+is providing one such example in Section 13.4 of <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>. Thus in flow
 forwarding mode the proxy needs to be able to set and read the ECN values in
 sent and received IP packets respectively. This may motivate that this
 functionality is optional to implement, even if supporting CONNECT-IP
@@ -1882,12 +1974,14 @@ implementations in general will need to handle IP packets and their fields with
 fine grained control. If optional some negotiation mechanism is needed.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.1-3">Possible realizations are:<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.1-4.1">always have two bits before payload in flow forwarding model, e.g.
+<li class="normal" id="section-6.1-4.1">
+            <p id="section-6.1-4.1.1">always have two bits before payload in flow forwarding model, e.g.
 by including the whole Type of Service (TOS) byte, which would also
-enable DSCP setting and reading.<a href="#section-6.1-4.1" class="pilcrow">¶</a>
+enable DSCP setting and reading.<a href="#section-6.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.1-4.2">use 4 different context IDs depending on what ECN field value was
-received or should be set.<a href="#section-6.1-4.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.1-4.2">
+            <p id="section-6.1-4.2.1">use 4 different context IDs depending on what ECN field value was
+received or should be set.<a href="#section-6.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-6.1-5">This is work in process and will be further specified in a future
@@ -1899,7 +1993,7 @@ version of this document.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
         <h3 id="name-icmp-handling">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-icmp-handling" class="section-name selfRef">ICMP handling</a>
         </h3>
-<p id="section-6.2-1">In flow forwarding mode a ICMP datagram format (<a href="#icmp-format" class="xref">Section 3.2.2</a>) is used to
+<p id="section-6.2-1">In flow forwarding mode a ICMP datagram format (<a href="#icmp-format" class="auto internal xref">Section 3.2.2</a>) is used to
 send the information from some ICMP message to the client.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.2-2">The proxy upon receiving an ICMP message with a destination of an IP address it
 performs flow forwarding on it needs to process the ICMP message. First it
@@ -1978,7 +2072,7 @@ when the handling of IP functions is defined in more detail.<a href="#section-8-
 <p id="section-9.1-1">This document (if published as RFC) registers the following headers in the
 "Permanent Message Header Field Names" registry maintained at
 <a href="https://www.iana.org/assignments/message-headers">https://www.iana.org/assignments/message-headers</a>.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
-<div class="artwork art-text alignLeft" id="section-9.1-2">
+<div class="alignLeft art-text artwork" id="section-9.1-2">
 <pre>
 +---------------------+----------+--------+---------------+
 | Header Field Name   | Protocol | Status |   Reference   |
@@ -2001,10 +2095,12 @@ when the handling of IP functions is defined in more detail.<a href="#section-8-
 </div>
 </section>
 </div>
+<div id="sec-combined-references">
 <section id="section-10">
       <h2 id="name-references">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
+<div id="sec-normative-references">
 <section id="section-10.1">
         <h3 id="name-normative-references">
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
@@ -2016,42 +2112,44 @@ when the handling of IP functions is defined in more detail.<a href="#section-8-
 <dd class="break"></dd>
 <dt id="HTTP-DGRAM">[HTTP-DGRAM]</dt>
         <dd>
-<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"Using Datagrams with HTTP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-masque-h3-datagram-03</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-03">https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-03</a>&gt;</span>. </dd>
+<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">L. Pardue</span>, <span class="refTitle">"HTTP Datagrams and the Capsule Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-masque-h3-datagram-11</span>, <time datetime="2022-06-17" class="refDate">17 June 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-11">https://datatracker.ietf.org/doc/html/draft-ietf-masque-h3-datagram-11</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC0792">[RFC0792]</dt>
         <dd>
-<span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Control Message Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 792</span>, <span class="seriesInfo">DOI 10.17487/RFC0792</span>, <time datetime="1981-09" class="refDate">September 1981</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc792">https://datatracker.ietf.org/doc/html/rfc792</a>&gt;</span>. </dd>
+<span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Control Message Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 792</span>, <span class="seriesInfo">DOI 10.17487/RFC0792</span>, <time datetime="1981-09" class="refDate">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc792">https://www.rfc-editor.org/rfc/rfc792</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
-<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>&gt;</span>. </dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3168">[RFC3168]</dt>
         <dd>
-<span class="refAuthor">Ramakrishnan, K.</span>, <span class="refAuthor">Floyd, S.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09" class="refDate">September 2001</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3168">https://datatracker.ietf.org/doc/html/rfc3168</a>&gt;</span>. </dd>
+<span class="refAuthor">Ramakrishnan, K.</span>, <span class="refAuthor">Floyd, S.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"The Addition of Explicit Congestion Notification (ECN) to IP"</span>, <span class="seriesInfo">RFC 3168</span>, <span class="seriesInfo">DOI 10.17487/RFC3168</span>, <time datetime="2001-09" class="refDate">September 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3168">https://www.rfc-editor.org/rfc/rfc3168</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4443">[RFC4443]</dt>
         <dd>
-<span class="refAuthor">Conta, A.</span>, <span class="refAuthor">Deering, S.</span>, and <span class="refAuthor">M. Gupta, Ed.</span>, <span class="refTitle">"Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 89</span>, <span class="seriesInfo">RFC 4443</span>, <span class="seriesInfo">DOI 10.17487/RFC4443</span>, <time datetime="2006-03" class="refDate">March 2006</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc4443">https://datatracker.ietf.org/doc/html/rfc4443</a>&gt;</span>. </dd>
+<span class="refAuthor">Conta, A.</span>, <span class="refAuthor">Deering, S.</span>, and <span class="refAuthor">M. Gupta, Ed.</span>, <span class="refTitle">"Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 89</span>, <span class="seriesInfo">RFC 4443</span>, <span class="seriesInfo">DOI 10.17487/RFC4443</span>, <time datetime="2006-03" class="refDate">March 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4443">https://www.rfc-editor.org/rfc/rfc4443</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
-<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8174">https://datatracker.ietf.org/doc/html/rfc8174</a>&gt;</span>. </dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8200">[RFC8200]</dt>
         <dd>
-<span class="refAuthor">Deering, S.</span> and <span class="refAuthor">R. Hinden</span>, <span class="refTitle">"Internet Protocol, Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 86</span>, <span class="seriesInfo">RFC 8200</span>, <span class="seriesInfo">DOI 10.17487/RFC8200</span>, <time datetime="2017-07" class="refDate">July 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8200">https://datatracker.ietf.org/doc/html/rfc8200</a>&gt;</span>. </dd>
+<span class="refAuthor">Deering, S.</span> and <span class="refAuthor">R. Hinden</span>, <span class="refTitle">"Internet Protocol, Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 86</span>, <span class="seriesInfo">RFC 8200</span>, <span class="seriesInfo">DOI 10.17487/RFC8200</span>, <time datetime="2017-07" class="refDate">July 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8200">https://www.rfc-editor.org/rfc/rfc8200</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8941">[RFC8941]</dt>
         <dd>
-<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P-H. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 8941</span>, <span class="seriesInfo">DOI 10.17487/RFC8941</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8941">https://datatracker.ietf.org/doc/html/rfc8941</a>&gt;</span>. </dd>
+<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 8941</span>, <span class="seriesInfo">DOI 10.17487/RFC8941</span>, <time datetime="2021-02" class="refDate">February 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8941">https://www.rfc-editor.org/rfc/rfc8941</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9000">[RFC9000]</dt>
       <dd>
-<span class="refAuthor">Iyengar, J., Ed.</span> and <span class="refAuthor">M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="seriesInfo">RFC 9000</span>, <span class="seriesInfo">DOI 10.17487/RFC9000</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc9000">https://datatracker.ietf.org/doc/html/rfc9000</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J., Ed.</span> and <span class="refAuthor">M. Thomson, Ed.</span>, <span class="refTitle">"QUIC: A UDP-Based Multiplexed and Secure Transport"</span>, <span class="seriesInfo">RFC 9000</span>, <span class="seriesInfo">DOI 10.17487/RFC9000</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9000">https://www.rfc-editor.org/rfc/rfc9000</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
+<div id="sec-informative-references">
 <section id="section-10.2">
         <h3 id="name-informative-references">
 <a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
@@ -2059,15 +2157,17 @@ when the handling of IP functions is defined in more detail.<a href="#section-8-
 <dl class="references">
 <dt id="I-D.westerlund-masque-transport-issues">[I-D.westerlund-masque-transport-issues]</dt>
         <dd>
-<span class="refAuthor">Westerlund, M.</span>, <span class="refAuthor">Ihlar, M.</span>, <span class="refAuthor">Sarker, Z.</span>, and <span class="refAuthor">M. Kuehlewind</span>, <span class="refTitle">"Transport Considerations for IP and UDP Proxying in MASQUE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-westerlund-masque-transport-issues-02</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-westerlund-masque-transport-issues-02">https://datatracker.ietf.org/doc/html/draft-westerlund-masque-transport-issues-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Westerlund, M.</span>, <span class="refAuthor">Ihlar, L. M.</span>, <span class="refAuthor">Sarker, Z.</span>, and <span class="refAuthor">M. Kühlewind</span>, <span class="refTitle">"Transport Considerations for IP and UDP Proxying in MASQUE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-westerlund-masque-transport-issues-02</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-westerlund-masque-transport-issues-02">https://datatracker.ietf.org/doc/html/draft-westerlund-masque-transport-issues-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2474">[RFC2474]</dt>
       <dd>
-<span class="refAuthor">Nichols, K.</span>, <span class="refAuthor">Blake, S.</span>, <span class="refAuthor">Baker, F.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"Definition of the Differentiated Services Field (DS Field) in the IPv4 and IPv6 Headers"</span>, <span class="seriesInfo">RFC 2474</span>, <span class="seriesInfo">DOI 10.17487/RFC2474</span>, <time datetime="1998-12" class="refDate">December 1998</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2474">https://datatracker.ietf.org/doc/html/rfc2474</a>&gt;</span>. </dd>
+<span class="refAuthor">Nichols, K.</span>, <span class="refAuthor">Blake, S.</span>, <span class="refAuthor">Baker, F.</span>, and <span class="refAuthor">D. Black</span>, <span class="refTitle">"Definition of the Differentiated Services Field (DS Field) in the IPv4 and IPv6 Headers"</span>, <span class="seriesInfo">RFC 2474</span>, <span class="seriesInfo">DOI 10.17487/RFC2474</span>, <time datetime="1998-12" class="refDate">December 1998</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2474">https://www.rfc-editor.org/rfc/rfc2474</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
 </section>
+</div>
 <div id="changes">
 <section id="appendix-A">
       <h2 id="name-changes-from-draft-kuehlewi">
@@ -2077,8 +2177,7 @@ when the handling of IP functions is defined in more detail.<a href="#section-8-
 draft-kuehlewind-masque-connect-ip-01. The editor made the following minor
 changes in order to make Flow Forwarding Mode compatible with CONNECT-IP:<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="appendix-A-2">
-        <dt id="appendix-A-2.1">
-Negotiation of Flow Forwarding Mode:  </dt>
+        <dt id="appendix-A-2.1">Negotiation of Flow Forwarding Mode:</dt>
         <dd style="margin-left: 1.5em" id="appendix-A-2.2">
           <p id="appendix-A-2.2.1">draft-kuehlewind-masque-connect-ip-01 uses the ":authority" pseudo-header to
 differentiate between flow forwarding mode and regular CONNECT-IP. Since many
@@ -2087,8 +2186,7 @@ uses a new HTTP header "Flow-Forwarding" to communicate whether flow forwarding
 mode is in use.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="appendix-A-2.3">
-HTTP Datagram Context IDs:  </dt>
+<dt id="appendix-A-2.3">HTTP Datagram Context IDs:</dt>
         <dd style="margin-left: 1.5em" id="appendix-A-2.4">
           <p id="appendix-A-2.4.1">draft-kuehlewind-masque-connect-ip-01 left registration of context IDs as
 future work, which prevented implementing the proposal. This draft defines two

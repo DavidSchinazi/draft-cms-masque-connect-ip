@@ -2,14 +2,14 @@
 
 
 
-MASQUE                                                   T.B. Determined
+MASQUE                                                  T. B. Determined
 Internet-Draft                                    MASQUE Enthusiasts LLC
-Intended status: Standards Track                        1 September 2021
-Expires: 5 March 2022
+Intended status: Standards Track                         6 November 2024
+Expires: 10 May 2025
 
 
              A Flow Forwarding Mode Extension to CONNECT-IP
-                  draft-tbd-masque-connect-ip-ext-flow
+              draft-tbd-masque-connect-ip-ext-flow-latest
 
 Abstract
 
@@ -56,11 +56,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2022.
+   This Internet-Draft will expire on 10 May 2025.
 
 Copyright Notice
 
-   Copyright (c) 2021 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -68,9 +68,9 @@ Copyright Notice
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
@@ -747,57 +747,57 @@ Table of Contents
               connect-ip-02>.
 
    [HTTP-DGRAM]
-              Schinazi, D. and L. Pardue, "Using Datagrams with HTTP",
-              Work in Progress, Internet-Draft, draft-ietf-masque-h3-
-              datagram-03, 12 July 2021,
+              Schinazi, D. and L. Pardue, "HTTP Datagrams and the
+              Capsule Protocol", Work in Progress, Internet-Draft,
+              draft-ietf-masque-h3-datagram-11, 17 June 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-masque-
-              h3-datagram-03>.
+              h3-datagram-11>.
 
    [RFC0792]  Postel, J., "Internet Control Message Protocol", STD 5,
               RFC 792, DOI 10.17487/RFC0792, September 1981,
-              <https://datatracker.ietf.org/doc/html/rfc792>.
+              <https://www.rfc-editor.org/rfc/rfc792>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
-              <https://datatracker.ietf.org/doc/html/rfc2119>.
+              <https://www.rfc-editor.org/rfc/rfc2119>.
 
    [RFC3168]  Ramakrishnan, K., Floyd, S., and D. Black, "The Addition
               of Explicit Congestion Notification (ECN) to IP",
               RFC 3168, DOI 10.17487/RFC3168, September 2001,
-              <https://datatracker.ietf.org/doc/html/rfc3168>.
+              <https://www.rfc-editor.org/rfc/rfc3168>.
 
    [RFC4443]  Conta, A., Deering, S., and M. Gupta, Ed., "Internet
               Control Message Protocol (ICMPv6) for the Internet
               Protocol Version 6 (IPv6) Specification", STD 89,
               RFC 4443, DOI 10.17487/RFC4443, March 2006,
-              <https://datatracker.ietf.org/doc/html/rfc4443>.
+              <https://www.rfc-editor.org/rfc/rfc4443>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://datatracker.ietf.org/doc/html/rfc8174>.
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
    [RFC8200]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
               (IPv6) Specification", STD 86, RFC 8200,
               DOI 10.17487/RFC8200, July 2017,
-              <https://datatracker.ietf.org/doc/html/rfc8200>.
+              <https://www.rfc-editor.org/rfc/rfc8200>.
 
-   [RFC8941]  Nottingham, M. and P-H. Kamp, "Structured Field Values for
+   [RFC8941]  Nottingham, M. and P. Kamp, "Structured Field Values for
               HTTP", RFC 8941, DOI 10.17487/RFC8941, February 2021,
-              <https://datatracker.ietf.org/doc/html/rfc8941>.
+              <https://www.rfc-editor.org/rfc/rfc8941>.
 
    [RFC9000]  Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", RFC 9000,
               DOI 10.17487/RFC9000, May 2021,
-              <https://datatracker.ietf.org/doc/html/rfc9000>.
+              <https://www.rfc-editor.org/rfc/rfc9000>.
 
 10.2.  Informative References
 
    [I-D.westerlund-masque-transport-issues]
-              Westerlund, M., Ihlar, M., Sarker, Z., and M. Kuehlewind,
-              "Transport Considerations for IP and UDP Proxying in
-              MASQUE", Work in Progress, Internet-Draft, draft-
-              westerlund-masque-transport-issues-02, 12 July 2021,
+              Westerlund, M., Ihlar, L. M., Sarker, Z., and M.
+              Kühlewind, "Transport Considerations for IP and UDP
+              Proxying in MASQUE", Work in Progress, Internet-Draft,
+              draft-westerlund-masque-transport-issues-02, 12 July 2021,
               <https://datatracker.ietf.org/doc/html/draft-westerlund-
               masque-transport-issues-02>.
 
@@ -805,7 +805,7 @@ Table of Contents
               "Definition of the Differentiated Services Field (DS
               Field) in the IPv4 and IPv6 Headers", RFC 2474,
               DOI 10.17487/RFC2474, December 1998,
-              <https://datatracker.ietf.org/doc/html/rfc2474>.
+              <https://www.rfc-editor.org/rfc/rfc2474>.
 
 Changes from draft-kuehlewind-masque-connect-ip-01
 
@@ -830,5 +830,4 @@ Author's Address
 
    To Be Determined
    MASQUE Enthusiasts LLC
-
    Email: dschinazi.ietf@gmail.com

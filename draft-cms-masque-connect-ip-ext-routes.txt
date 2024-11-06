@@ -5,12 +5,12 @@
 MASQUE                                                 A. Chernyakhovsky
 Internet-Draft                                                 D. McCall
 Intended status: Standards Track                             D. Schinazi
-Expires: 5 March 2022                                         Google LLC
-                                                        1 September 2021
+Expires: 10 May 2025                                          Google LLC
+                                                         6 November 2024
 
 
                    A Routing Extension to CONNECT-IP
-                 draft-cms-masque-connect-ip-ext-routes
+             draft-cms-masque-connect-ip-ext-routes-latest
 
 Abstract
 
@@ -45,11 +45,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2022.
+   This Internet-Draft will expire on 10 May 2025.
 
 Copyright Notice
 
-   Copyright (c) 2021 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -57,9 +57,9 @@ Copyright Notice
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
 
 Table of Contents
 
@@ -297,25 +297,25 @@ Table of Contents
 6.1.  Normative References
 
    [HTTP-DGRAM]
-              Schinazi, D. and L. Pardue, "Using Datagrams with HTTP",
-              Work in Progress, Internet-Draft, draft-ietf-masque-h3-
-              datagram-03, 12 July 2021,
+              Schinazi, D. and L. Pardue, "HTTP Datagrams and the
+              Capsule Protocol", Work in Progress, Internet-Draft,
+              draft-ietf-masque-h3-datagram-11, 17 June 2022,
               <https://datatracker.ietf.org/doc/html/draft-ietf-masque-
-              h3-datagram-03>.
+              h3-datagram-11>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
-              <https://datatracker.ietf.org/doc/html/rfc2119>.
+              <https://www.rfc-editor.org/rfc/rfc2119>.
 
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://datatracker.ietf.org/doc/html/rfc7230>.
+              <https://www.rfc-editor.org/rfc/rfc7230>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://datatracker.ietf.org/doc/html/rfc8174>.
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
 6.2.  Informative References
 
@@ -372,7 +372,6 @@ Authors' Addresses
    1600 Amphitheatre Parkway
    Mountain View, California 94043,
    United States of America
-
    Email: achernya@google.com
 
 
@@ -381,7 +380,6 @@ Authors' Addresses
    1600 Amphitheatre Parkway
    Mountain View, California 94043,
    United States of America
-
    Email: dallasmccall@google.com
 
 
@@ -390,5 +388,4 @@ Authors' Addresses
    1600 Amphitheatre Parkway
    Mountain View, California 94043,
    United States of America
-
    Email: dschinazi.ietf@gmail.com
