@@ -1,2 +1,5 @@
-# Automatically generated CODEOWNERS file.
-draft-cms-masque-connect-ip.md achernya@google.comdallasmccall@google.comdschinazi.ietf@gmail.com
+# Automatically generated CODEOWNERS
+# Regenerate with `make update-codeowners`
+draft-cms-masque-connect-ip.md achernya@google.com dallasmccall@google.com dschinazi.ietf@gmail.com
+draft-cms-masque-connect-ip-ext-routes.md achernya@google.com dallasmccall@google.com dschinazi.ietf@gmail.com
+draft-tbd-masque-connect-ip-ext-flow.md dschinazi.ietf@gmail.com
