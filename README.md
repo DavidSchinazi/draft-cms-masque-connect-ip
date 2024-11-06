@@ -2,6 +2,8 @@
 
 This is the working area for individual Internet-Drafts.
 
+IMPORTANT: these documents have been replaced by RFC 9484 and are now fully obsolete.
+
 ## The CONNECT-IP HTTP Method
 
 * [Editor's Copy](https://DavidSchinazi.github.io/draft-cms-masque-connect-ip/#go.draft-cms-masque-connect-ip.html)
